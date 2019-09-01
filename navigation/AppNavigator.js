@@ -2,11 +2,6 @@ import React from 'react';
 import { createAppContainer, createSwitchNavigator } from 'react-navigation';
 
 import MainTabNavigator from './MainTabNavigator';
-import HomeScreen from '../screens/HomeScreen';
-import BookingsScreen from '../screens/BookingsScreen';
-import ProfilesScreen from '../screens/ProfilesScreen';
-import ProductsScreen from '../screens/ProductsScreen';
-import BookingService from '../screens/BookingsScreen/BookingService';
 
 
 export default createAppContainer(
