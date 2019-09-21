@@ -64,8 +64,8 @@ class BookingsScreen extends React.Component {
     } else {
       return data.branches.map(branch => {
         return (
-          <GridRow columns={2} style={bookingsStyles.background}>
-            <TouchableOpacity key={branch.id}>
+          <GridRow key={branch.id} columns={2} style={bookingsStyles.background}>
+            <TouchableOpacity onPress={() => alert(branch.name)}>
               <Card style={bookingsStyles.border}>
                 <Image
                   style={bookingsStyles.image}
