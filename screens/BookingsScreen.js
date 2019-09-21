@@ -21,75 +21,98 @@ class BookingsScreen extends React.Component {
     super(props);
     this.renderRow = this.renderRow.bind(this);
     this.state = {
-      branches: [
-        {
-          "name": "Gaspar Brasserie",
-          "address": "185 Sutter St, San Francisco, CA 94109",
-          "image": { "url": "https://shoutem.github.io/static/getting-started/restaurant-1.jpg" },
-        },
-        {
-          "name": "Chalk Point Kitchen",
-          "address": "527 Broome St, New York, NY 10013",
-          "image": { "url": "https://shoutem.github.io/static/getting-started/restaurant-2.jpg" },
-        },
-        {
-          "name": "Kyoto Amber Upper East",
-          "address": "225 Mulberry St, New York, NY 10012",
-          "image": { "url": "https://shoutem.github.io/static/getting-started/restaurant-3.jpg" },
-        },
-        {
-          "name": "Kyoto Amber Upper East",
-          "address": "225 Mulberry St, New York, NY 10012",
-          "image": { "url": "https://shoutem.github.io/static/getting-started/restaurant-3.jpg" },
-        },
-        {
-          "name": "Kyoto Amber Upper East",
-          "address": "225 Mulberry St, New York, NY 10012",
-          "image": { "url": "https://shoutem.github.io/static/getting-started/restaurant-4.jpg" },
-        },
-        {
-          "name": "Kyoto Amber Upper East",
-          "address": "225 Mulberry St, New York, NY 10012",
-          "image": { "url": "https://shoutem.github.io/static/getting-started/restaurant-5.jpg" },
-        }
-      ],
+      branches: []
     }
   }
 
 
-  renderRow() {
+  test1() {
+    // const data = this.props.data;
+    // if (data.loading) {
+    //   console.log('Loading')
+    // } else {
+    //   return rowData.map(branch => {
+    //     return (
+    //       <GridRow key={branch.id} columns={2} style={bookingsStyles.background}>
+    //         <TouchableOpacity >
+    //           <Card style={bookingsStyles.border}>
+    //             <Image
+    //               style={bookingsStyles.image}
+    //               styleName="medium-wide"
+    //               source={{ uri: "https://shoutem.github.io/static/getting-started/restaurant-1.jpg" }}
+    //             />
+    //             <View styleName="content">
+    //               <Text>{branch.name}</Text>
+    //             </View>
+    //           </Card>
+    //         </TouchableOpacity>
+    //       </GridRow>
+    //     );
+    //   })
+    // }
+  }
+
+  test () {
     const data = this.props.data;
     if (data.loading) {
       console.log('Loading')
     } else {
-      return data.branches.map(branch => {
-        return (
-          <GridRow columns={2} style={bookingsStyles.background}>
-            <TouchableOpacity key={branch.id}>
-              <Card style={bookingsStyles.border}>
-                <Image
-                  style={bookingsStyles.image}
-                  styleName="medium-wide"
-                  source={{ uri: "https://shoutem.github.io/static/getting-started/restaurant-1.jpg" }}
-                />
-                <View styleName="content">
-                  <Text>{branch.name}</Text>
-                </View>
-              </Card>
-            </TouchableOpacity>
-          </GridRow>
-        );
+      data.branches.map(branch => {
+        this.state.branches.push({
+          'name': branch.name
+        })
       })
     }
   }
 
-  render() {
-    const branches = this.renderRow()
+  renderRow(rowData) { 
+    const cellViews = rowData.map((branch, id) => {
+      return (
+        <TouchableOpacity key={id} 
+        onPress={() => this.props.navigation.navigate('Services')}>
+          <Card style={bookingsStyles.border}>
+            <Image
+              style={bookingsStyles.image}
+              styleName="medium-wide"
+              source={{ uri: branch.image.url  }}
+            />
+            <View styleName="content">
+              <Subtitle numberOfLines={3}>{branch.name}</Subtitle>
+              <View styleName="horizontal">
+                <Caption styleName="collapsible" numberOfLines={2}>{branch.address}</Caption>
+              </View>
+            </View>
+          </Card>
+        </TouchableOpacity>
+      );
+    });
+  
 
+    return (
+      <GridRow columns={2} style={bookingsStyles.background}>
+        {cellViews}
+      </GridRow>
+    );
+  }
+  render() {
+    const branches = this.state.branches;
+    this.test();
+    let isFirstArticle = false;
+    const groupedData = GridRow.groupByRows(branches, 2, () => {
+      if (isFirstArticle) {
+        isFirstArticle = true;
+        return 2;
+      }
+      return 1;
+    });
 
     return (
       <ScrollView style={bookingsStyles.container}>
-        {branches}
+         <ListView
+          data={groupedData}
+          renderRow={this.renderRow}
+        />
+        
       </ScrollView>
     );
   }
