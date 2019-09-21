@@ -1,10 +1,22 @@
 import React from 'react';
-import { ScrollView, StyleSheet, TouchableOpacity } from 'react-native';
-import {Icon, Image,  Card, GridRow,  ListView, Subtitle, View, Caption } from '@shoutem/ui';
-import {styles} from './../components/styles'
+import { Text, ScrollView, StyleSheet, TouchableOpacity } from 'react-native';
+import { Icon, Image, Card, GridRow, ListView, Subtitle, View, Caption } from '@shoutem/ui';
+import { styles } from './../components/styles'
+
+import { gql } from 'apollo-boost';
+import { graphql } from 'react-apollo';
+
+const getBranchesQuery = gql`
+  {
+    branches {
+      id 
+      name
+    }
+  }
+`
 
 class BookingsScreen extends React.Component {
-  
+
   constructor(props) {
     super(props);
     this.renderRow = this.renderRow.bind(this);
@@ -43,63 +55,51 @@ class BookingsScreen extends React.Component {
       ],
     }
   }
-  
-  renderRow(rowData) { 
-    const cellViews = rowData.map((branch, id) => {
-      return (
-        <TouchableOpacity key={id} 
-        onPress={() => this.props.navigation.navigate('Services')}>
-          <Card style={bookingsStyles.border}>
-            <Image
-              style={bookingsStyles.image}
-              styleName="medium-wide"
-              source={{ uri: branch.image.url  }}
-            />
-            <View styleName="content">
-              <Subtitle numberOfLines={3}>{branch.name}</Subtitle>
-              <View styleName="horizontal">
-                <Caption styleName="collapsible" numberOfLines={2}>{branch.address}</Caption>
-              </View>
-            </View>
-          </Card>
-        </TouchableOpacity>
-      );
-    });
-  
-    return (
-      <GridRow columns={2} style={bookingsStyles.background}>
-        {cellViews}
-      </GridRow>
-    );
+
+
+  renderRow() {
+    const data = this.props.data;
+    if (data.loading) {
+      console.log('Loading')
+    } else {
+      return data.branches.map(branch => {
+        return (
+          <GridRow columns={2} style={bookingsStyles.background}>
+            <TouchableOpacity key={branch.id}>
+              <Card style={bookingsStyles.border}>
+                <Image
+                  style={bookingsStyles.image}
+                  styleName="medium-wide"
+                  source={{ uri: "https://shoutem.github.io/static/getting-started/restaurant-1.jpg" }}
+                />
+                <View styleName="content">
+                  <Text>{branch.name}</Text>
+                </View>
+              </Card>
+            </TouchableOpacity>
+          </GridRow>
+        );
+      })
+    }
   }
-  
+
   render() {
-    const branches = this.state.branches;
-    let isFirstArticle = false;
-    const groupedData = GridRow.groupByRows(branches, 2, () => {
-      if (isFirstArticle) {
-        isFirstArticle = true;
-        return 2;
-      }
-      return 1;
-    });
-  
+    const branches = this.renderRow()
+
+
     return (
       <ScrollView style={bookingsStyles.container}>
-        <ListView
-          data={groupedData}
-          renderRow={this.renderRow}
-        />
+        {branches}
       </ScrollView>
     );
   }
 }
-export default BookingsScreen
+export default graphql(getBranchesQuery)(BookingsScreen);
 
-BookingsScreen.navigationOptions = ({ navigation }) =>  {
+BookingsScreen.navigationOptions = ({ navigation }) => {
   return {
     title: 'BOOKINGS',
-    headerTintColor :'#000000',
+    headerTintColor: '#000000',
     headerStyle: {
       backgroundColor: '#fff',
       borderBottomWidth: 0.3,
@@ -111,7 +111,7 @@ BookingsScreen.navigationOptions = ({ navigation }) =>  {
     },
     headerRight: (
       <TouchableOpacity onPress={() => navigation.navigate('Confirmations')}>
-          <Icon style={styles.icon} name="add-event"/>
+        <Icon style={styles.icon} name="add-event" />
       </TouchableOpacity>
     ),
   };
@@ -121,25 +121,25 @@ const bookingsStyles = StyleSheet.create({
   background: {
     backgroundColor: '#fff',
   },
-  border:{
+  border: {
     borderStyle: 'solid',
     borderWidth: 1.3,
     borderColor: '#c2185b',
     paddingTop: 5,
     marginBottom: 3
-    
+
   },
-  image:{
+  image: {
     width: '95%',
     marginLeft: 'auto',
     marginRight: 'auto'
   },
-  icon:{
+  icon: {
     color: '#000000'
   },
-  container:{
+  container: {
     flex: 1,
     paddingTop: 15,
-       
+
   }
 });

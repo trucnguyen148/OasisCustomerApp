@@ -49,7 +49,6 @@ class HomeScreen extends React.Component {
       
       
       render() {
-        this.getBranches()
         return (
             <ScrollView style={styles.container}>
                 {/* Hot Deal */}
