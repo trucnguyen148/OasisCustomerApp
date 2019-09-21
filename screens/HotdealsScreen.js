@@ -1,7 +1,19 @@
 import React from 'react';
 import { ScrollView, StyleSheet} from 'react-native';
 import { View, Image } from '@shoutem/ui';
-import {styles} from './../components/styles'
+import {styles} from './../components/styles';
+
+import { gql } from 'apollo-boost';
+import { graphql } from 'react-apollo';
+
+const getBranchesQuery = gql`
+  {
+    branches {
+      id 
+      name
+    }
+  }
+`
 
 class HomeScreen extends React.Component {
     constructor(props) {
@@ -18,11 +30,26 @@ class HomeScreen extends React.Component {
             { "image": { "url": "https://shoutem.github.io/static/getting-started/restaurant-7.jpg" } }
           ]
         }
+        
       }
-
+      
+      getBranches(){
+        let data = this.props.data;
+        if(data.loading){
+          // return (<div>Loading</div>)
+          console.log('Loading')
+        }else {
+          return data.branches.map(branch => {
+            return (
+              console.log(branch.name)
+            )
+          })
+        }
+      }
+      
       
       render() {
-
+        this.getBranches()
         return (
             <ScrollView style={styles.container}>
                 {/* Hot Deal */}
@@ -44,7 +71,7 @@ class HomeScreen extends React.Component {
       }
 }
 
-export default  HomeScreen
+export default graphql(getBranchesQuery)(HomeScreen);
 
 HomeScreen.navigationOptions = {
   title: 'HOT DEALS',
