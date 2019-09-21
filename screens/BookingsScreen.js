@@ -9,7 +9,7 @@ import { graphql } from 'react-apollo';
 const getBranchesQuery = gql`
   {
     branches {
-      id 
+      id
       name
     }
   }
@@ -57,18 +57,31 @@ class BookingsScreen extends React.Component {
     if (data.loading) {
       console.log('Loading')
     } else {
-      data.branches.map(branch => {
-        this.state.branches.push({
-          'name': branch.name
-        })
+      return data.branches.map(branch => {
+        return (
+          <GridRow key={branch.id} columns={2} style={bookingsStyles.background}>
+            <TouchableOpacity onPress={() => alert(branch.name)}>
+              <Card style={bookingsStyles.border}>
+                <Image
+                  style={bookingsStyles.image}
+                  styleName="medium-wide"
+                  source={{ uri: "https://shoutem.github.io/static/getting-started/restaurant-1.jpg" }}
+                />
+                <View styleName="content">
+                  <Text>{branch.name}</Text>
+                </View>
+              </Card>
+            </TouchableOpacity>
+          </GridRow>
+        );
       })
     }
   }
 
-  renderRow(rowData) { 
+  renderRow(rowData) {
     const cellViews = rowData.map((branch, id) => {
       return (
-        <TouchableOpacity key={id} 
+        <TouchableOpacity key={id}
         onPress={() => this.props.navigation.navigate('Services')}>
           <Card style={bookingsStyles.border}>
             <Image
@@ -86,7 +99,7 @@ class BookingsScreen extends React.Component {
         </TouchableOpacity>
       );
     });
-  
+
 
     return (
       <GridRow columns={2} style={bookingsStyles.background}>
@@ -112,7 +125,7 @@ class BookingsScreen extends React.Component {
           data={groupedData}
           renderRow={this.renderRow}
         />
-        
+
       </ScrollView>
     );
   }
