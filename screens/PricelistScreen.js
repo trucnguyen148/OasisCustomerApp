@@ -13,12 +13,15 @@ const getServicesQuery = gql`
     positions(type: 2) {
       id
       name
-      products {
+    },
+    product_type(type: 2) {
         id 
         name 
         unit_price
+        category{
+          id
+        }
       }
-    }
   }
 `
 
@@ -27,13 +30,7 @@ class PricelistScreen extends React.Component {
     super(props);
     this.state = {
       categories: [],
-      services: [
-        { "name": "Sugar Ciated Manicure", "price": "35e" },
-        { "name": "Short and Sweet Manicure", "price": "25e" }, { "name": "Add-on Gel Colour to Hands", "price": "19e" },
-        { "name": "Sugar Coated Pedicure", "price": "55e" },
-        { "name": "Gel extensions - Regular Full Set", "price": "65e" },
-        { "name": "Fill- Sculpted set", "price": "15e" }
-      ]
+      services: [],
     }
   }
   state = {
@@ -50,70 +47,108 @@ class PricelistScreen extends React.Component {
       />
     );
   };
-  test(){
-    const data = this.props.data;
+  getData(data) {
     if (data.loading) {
       console.log('Loading')
     } else {
-      data.positions.map(service => {
-        this.state.categories.push({
-          "name": service.name
-        })
-      })
+      if (this.state.categories.length == 0) {
+        data.positions.map(service => {
+          this.state.categories.push({
+            "id": service.id,
+            "name": service.name,
+          });
+        });
+      }
+      if (this.state.services.length == 0) {
+        data.product_type.map(product => {
+          this.state.services.push({
+            "id": product.id,
+            "name": product.name,
+            "price": product.unit_price + "e"
+          });
+        });
+      }
+
     }
   };
 
+  getProducts(data, category_id) {
+    if (data.loading) {
+      console.log('Loading')
+    } else {
+      let result = data.product_type.filter(product => {
+        if (product.category != null) {
+          return product.category.id == category_id
+        }
+      });
+
+      console.log(result)
+    }
+  }
+
   render() {
-    this.test()
+    const data = this.props.data;
+    this.getData(data)
+
     const { search } = this.state;
     const selectedCategory = this.state.selectedCategory || this.state.categories[0];
-    return (
-      
-      <View style={styles.containerPriceProduct}>
 
-        {/* Seach bar */}
-        <SearchBar
-          placeholder="Search product..."
-          onChangeText={this.updateSearch}
-          value={search}
-          inputStyle={styles.searchInput}
-          containerStyle={styles.searchBackground}
-          inputContainerStyle={styles.searchBackground}
-          searchIcon={styles.searchIcon}
-          cancelIcon={styles.cancelIcon}
-        />
-        {/* Dropdown */}
-        <View style={styles.floatRightPriceProduct}>
-          <DropDownMenu
-            options={this.state.categories}
-            selectedOption={selectedCategory ? selectedCategory : this.state.categories[0]}
-            onOptionSelected={(category) => this.setState({ selectedCategory: category })}
-            titleProperty="name"
-            valueProperty="categories.name"
+    if (data.loading) {
+      return <View style={styles.containerPriceProduct}><Text>Loading</Text></View>
+    } else {
+      return (
+        <View style={styles.containerPriceProduct}>
+          {/* Seach bar */}
+          <SearchBar
+            placeholder="Search product..."
+            onChangeText={this.updateSearch}
+            value={search}
+            inputStyle={styles.searchInput}
+            containerStyle={styles.searchBackground}
+            inputContainerStyle={styles.searchBackground}
+            searchIcon={styles.searchIcon}
+            cancelIcon={styles.cancelIcon}
           />
+          {/* Dropdown */}
+          <View style={styles.floatRightPriceProduct}>
+            <DropDownMenu
+              options={this.state.categories}
+              selectedOption={selectedCategory ? selectedCategory : this.state.categories[0]}
+              onOptionSelected={
+                (category) => {
+                  this.setState({ selectedCategory: category })
+                  // this.getProducts(data, category.id)
+                  console.log(category.id)
+                }
+              }
+              titleProperty="name"
+              valueProperty="categories.name"
+            />
+          </View>
+
+          {/* Show details with Flatlist */}
+          <ScrollView style={pricelistStyles.space}>
+            <FlatList
+              data={this.state.services}
+              ItemSeparatorComponent={this.serviceSeparator}
+              keyExtractor={(item, index) => index.toString()}
+              renderItem={({ item }) => (
+                <View style={pricelistStyles.row} >
+                  <Text
+                    style={pricelistStyles.item}
+                  >
+                    {item.name}
+                  </Text>
+                  <Text style={pricelistStyles.floatRightPrice}>{item.price}</Text>
+                </View>
+              )}
+            />
+          </ScrollView>
+
         </View>
+      );
+    }
 
-        {/* Show details with Flatlist */}
-        <ScrollView style={pricelistStyles.space}>
-          <FlatList
-            data={this.state.services}
-            ItemSeparatorComponent={this.serviceSeparator}
-            keyExtractor={(item, index) => index.toString()}
-            renderItem={({ item }) => (
-              <View style={pricelistStyles.row} >
-                <Text
-                  style={pricelistStyles.item}
-                >
-                  {item.name}
-                </Text>
-                <Text style={pricelistStyles.floatRightPrice}>{item.price}</Text>
-              </View>
-            )}
-          />
-        </ScrollView>
-
-      </View>
-    );
   }
 }
 
