@@ -15,7 +15,6 @@ class ProductsScreen extends React.Component {
       selectedIndex: 2,
       categories: [],
       products: [],
-      refreshFlastlist: false,
     }
     this.updateIndex = this.updateIndex.bind(this)
   }
@@ -111,10 +110,6 @@ class ProductsScreen extends React.Component {
                 (category) => {
                   this.setState({ selectedCategory: category })
                   this.getProducts(data, category.id)
-                  this.setState(state => {
-                    state.refreshFlastlist = !state.refreshFlastlist
-                  });
-                  console.log(this.state.products)
                 }
               }
               titleProperty="name"
@@ -126,7 +121,6 @@ class ProductsScreen extends React.Component {
           <ScrollView style={productStyles.space}>
             <FlatList
               data={this.state.products}
-              extraData={this.state.refreshFlastlist}
               ItemSeparatorComponent={this.productSeparator}
               keyExtractor={(item, index) => index.toString()}
               renderItem={({ item }) => (

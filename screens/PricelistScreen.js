@@ -14,7 +14,6 @@ class PricelistScreen extends React.Component {
     this.state = {
       categories: [],
       services: [],
-      refreshFlastlist: false,
     }
   }
   state = {
@@ -101,9 +100,7 @@ class PricelistScreen extends React.Component {
                 (category) => {
                   this.setState({ selectedCategory: category })
                   this.getProducts(data, category.id)
-                  this.setState(state => {
-                    state.refreshFlastlist = !state.refreshFlastlist
-                  });
+                
                 }
               }
               titleProperty="name"
@@ -115,7 +112,7 @@ class PricelistScreen extends React.Component {
           <ScrollView style={pricelistStyles.space}>
             <FlatList
               data={this.state.services}
-              extraData={this.state.refreshFlastlist}
+              
               ItemSeparatorComponent={this.serviceSeparator}
               keyExtractor={(item, index) => index.toString()}
               renderItem={({ item }) => (
