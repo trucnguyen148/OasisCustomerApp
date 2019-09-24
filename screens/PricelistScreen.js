@@ -4,26 +4,9 @@ import { View, Text, DropDownMenu } from '@shoutem/ui';
 import { SearchBar } from 'react-native-elements';
 import { styles } from './../components/styles'
 
-
-import { gql } from 'apollo-boost';
+import flowright from "lodash.flowright";
 import { graphql } from 'react-apollo';
-
-const getServicesQuery = gql`
-  {
-    positions(type: 2) {
-      id
-      name
-    },
-    product_type(type: 2) {
-        id 
-        name 
-        unit_price
-        category{
-          id
-        }
-      }
-  }
-`
+import { getServicesQuery } from '../components/queries/queries';
 
 class PricelistScreen extends React.Component {
   constructor(props) {
@@ -31,10 +14,12 @@ class PricelistScreen extends React.Component {
     this.state = {
       categories: [],
       services: [],
+      refreshFlastlist: false,
     }
   }
   state = {
     search: '',
+
   };
   updateSearch = search => {
     this.setState({ search });
@@ -60,15 +45,8 @@ class PricelistScreen extends React.Component {
         });
       }
       if (this.state.services.length == 0) {
-        data.product_type.map(product => {
-          this.state.services.push({
-            "id": product.id,
-            "name": product.name,
-            "price": product.unit_price + "e"
-          });
-        });
+        this.getProducts(data, this.state.categories[0].id)
       }
-
     }
   };
 
@@ -76,18 +54,23 @@ class PricelistScreen extends React.Component {
     if (data.loading) {
       console.log('Loading')
     } else {
-      let result = data.product_type.filter(product => {
-        if (product.category != null) {
-          return product.category.id == category_id
-        }
-      });
-
-      console.log(result)
+      this.state.services = [];
+      return data.product_type.filter(product => {
+        return product.category.id == category_id
+      })
+        .map(product => {
+          this.state.services.push({
+            "id": product.id,
+            "name": product.name,
+            "price": product.unit_price + "e"
+          });
+        });
     }
   }
 
   render() {
-    const data = this.props.data;
+    const data = this.props.getServicesQuery;
+    
     this.getData(data)
 
     const { search } = this.state;
@@ -117,8 +100,10 @@ class PricelistScreen extends React.Component {
               onOptionSelected={
                 (category) => {
                   this.setState({ selectedCategory: category })
-                  // this.getProducts(data, category.id)
-                  console.log(category.id)
+                  this.getProducts(data, category.id)
+                  this.setState(state => {
+                    state.refreshFlastlist = !state.refreshFlastlist
+                  });
                 }
               }
               titleProperty="name"
@@ -130,6 +115,7 @@ class PricelistScreen extends React.Component {
           <ScrollView style={pricelistStyles.space}>
             <FlatList
               data={this.state.services}
+              extraData={this.state.refreshFlastlist}
               ItemSeparatorComponent={this.serviceSeparator}
               keyExtractor={(item, index) => index.toString()}
               renderItem={({ item }) => (
@@ -152,7 +138,11 @@ class PricelistScreen extends React.Component {
   }
 }
 
-export default graphql(getServicesQuery)(PricelistScreen);
+export default flowright(
+  graphql(getServicesQuery, {
+    name: "getServicesQuery"
+  }),
+)(PricelistScreen);
 
 PricelistScreen.navigationOptions = {
   title: 'PRICE LIST',
