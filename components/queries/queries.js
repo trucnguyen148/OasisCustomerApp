@@ -32,4 +32,21 @@ const getServicesQuery = gql`
       }
   }
 `
-export  {getBookingsQuery, getServicesQuery}
+const getProductsQuery = gql`
+  {
+    positions(type: 1) {
+      id
+      name
+    },
+    product_type(type: 1) {
+        id 
+        name 
+        unit_price
+        description
+        category{
+          id
+        }
+      }
+  }
+`
+export  {getBookingsQuery, getServicesQuery, getProductsQuery}

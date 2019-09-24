@@ -2,7 +2,7 @@ import React from 'react';
 import { ScrollView, StyleSheet, FlatList } from 'react-native';
 import { View, Text, DropDownMenu } from '@shoutem/ui';
 import { SearchBar } from 'react-native-elements';
-import { styles } from './../components/styles'
+import { styles } from './../components/styles';
 
 import flowright from "lodash.flowright";
 import { graphql } from 'react-apollo';
@@ -32,7 +32,7 @@ class PricelistScreen extends React.Component {
       />
     );
   };
-  getData(data) {
+  getCategory(data) {
     if (data.loading) {
       console.log('Loading')
     } else {
@@ -71,7 +71,7 @@ class PricelistScreen extends React.Component {
   render() {
     const data = this.props.getServicesQuery;
     
-    this.getData(data)
+    this.getCategory(data)
 
     const { search } = this.state;
     const selectedCategory = this.state.selectedCategory || this.state.categories[0];
