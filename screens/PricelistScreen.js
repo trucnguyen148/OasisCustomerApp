@@ -14,6 +14,7 @@ class PricelistScreen extends React.Component {
     this.state = {
       categories: [],
       services: [],
+      firstTime: false
     }
   }
   state = {
@@ -23,6 +24,9 @@ class PricelistScreen extends React.Component {
   updateSearch = search => {
     this.setState({ search });
   };
+  componentDidMount() {
+    this.state.firstTime = true
+  }
   serviceSeparator = () => {
     return (
       //Item Separator
@@ -31,7 +35,7 @@ class PricelistScreen extends React.Component {
       />
     );
   };
-  getCategory(data) {
+  getCategory(data, firstTime) {
     if (data.loading) {
       console.log('Loading')
     } else {
@@ -43,8 +47,9 @@ class PricelistScreen extends React.Component {
           });
         });
       }
-      if (this.state.services.length == 0) {
+      if (firstTime) {
         this.getProducts(data, this.state.categories[0].id)
+        this.state.firstTime = false
       }
     }
   };
@@ -70,7 +75,7 @@ class PricelistScreen extends React.Component {
   render() {
     const data = this.props.getServicesQuery;
 
-    this.getCategory(data)
+    this.getCategory(data, this.state.firstTime)
 
     const { search } = this.state;
     const selectedCategory = this.state.selectedCategory || this.state.categories[0];
