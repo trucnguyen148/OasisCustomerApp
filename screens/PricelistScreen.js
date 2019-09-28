@@ -69,7 +69,7 @@ class PricelistScreen extends React.Component {
 
   render() {
     const data = this.props.getServicesQuery;
-    
+
     this.getCategory(data)
 
     const { search } = this.state;
@@ -100,7 +100,7 @@ class PricelistScreen extends React.Component {
                 (category) => {
                   this.setState({ selectedCategory: category })
                   this.getProducts(data, category.id)
-                
+
                 }
               }
               titleProperty="name"
@@ -112,7 +112,7 @@ class PricelistScreen extends React.Component {
           <ScrollView style={pricelistStyles.space}>
             <FlatList
               data={this.state.services}
-              
+
               ItemSeparatorComponent={this.serviceSeparator}
               keyExtractor={(item, index) => index.toString()}
               renderItem={({ item }) => (
@@ -133,6 +133,20 @@ class PricelistScreen extends React.Component {
     }
 
   }
+  static navigationOptions = {
+    title: 'PRICE LIST',
+    headerTintColor: '#000000',
+    headerStyle: {
+      backgroundColor: '#fff',
+      borderBottomWidth: 0.3,
+      borderBottomColor: '#000000'
+    },
+    headerTitleStyle: {
+      fontWeight: 'bold',
+      fontSize: 18
+    },
+  };
+
 }
 
 export default flowright(
@@ -141,19 +155,7 @@ export default flowright(
   }),
 )(PricelistScreen);
 
-PricelistScreen.navigationOptions = {
-  title: 'PRICE LIST',
-  headerTintColor: '#000000',
-  headerStyle: {
-    backgroundColor: '#fff',
-    borderBottomWidth: 0.3,
-    borderBottomColor: '#000000'
-  },
-  headerTitleStyle: {
-    fontWeight: 'bold',
-    fontSize: 18
-  },
-};
+
 
 const pricelistStyles = StyleSheet.create({
   title: {

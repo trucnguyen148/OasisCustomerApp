@@ -15,6 +15,8 @@ class ProductsScreen extends React.Component {
       selectedIndex: 2,
       categories: [],
       products: [],
+      cartItems: [],
+      firstTime: false
     }
     this.updateIndex = this.updateIndex.bind(this)
   }
@@ -40,7 +42,7 @@ class ProductsScreen extends React.Component {
     );
   };
 
-  getCategory(data) {
+  getCategory(data, firstTime) {
     if (data.loading) {
       console.log('Loading')
     } else {
@@ -52,8 +54,9 @@ class ProductsScreen extends React.Component {
           });
         });
       }
-      if (this.state.products.length == 0) {
+      if (firstTime) {
         this.getProducts(data, this.state.categories[0].id)
+        this.state.firstTime = false
       }
     }
   };
@@ -78,12 +81,40 @@ class ProductsScreen extends React.Component {
     }
   };
 
+  cartItem(item) {
+    let hasExisted = this.state.cartItems.some(cartItem => {
+      return cartItem.id == item.id
+    })
+
+    if (hasExisted) {
+      this.state.cartItems.forEach(cartItem => {
+        if (cartItem.id == item.id) {
+          cartItem.quantity++
+        }
+      })
+    } else {
+      this.state.cartItems.push({
+        "id": item.id,
+        "image": "https://shoutem.github.io/static/getting-started/restaurant-1.jpg",
+        "name": item.name,
+        "description": item.description,
+        "quantity": 1,
+        "price": item.price
+      })
+    }
+  }
+
+  componentDidMount() {
+    this.props.navigation.setParams({ cartItems: this.state.cartItems  });
+    this.state.firstTime = true
+  }
+
   render() {
     const selectedCategory = this.state.selectedCategory || this.state.categories[0];
     const { search } = this.state;
     const data = this.props.getProductsQuery;
-    this.getCategory(data)
-
+    this.getCategory(data, this.state.firstTime)
+ 
     if (data.loading) {
       return <View style={styles.containerPriceProduct}><Text>Loading</Text></View>
     } else {
@@ -133,7 +164,8 @@ class ProductsScreen extends React.Component {
                   </Text>
                   <Text style={productStyles.floatRightPrice}>{item.price}</Text>
                   <Button style={productStyles.floatRightButton}
-                    styleName="secondary"><Icon style={productStyles.middle} name="plus-button" /></Button>
+                    styleName="secondary"
+                    onPress={() => this.cartItem(item)}><Icon style={productStyles.middle} name="plus-button" /></Button>
                 </View>
               )}
             />
@@ -142,6 +174,27 @@ class ProductsScreen extends React.Component {
       );
     }
   }
+
+  static navigationOptions = ({ navigation }) => {
+    return {
+      title: 'PRODUCTS',
+      headerTintColor: '#000000',
+      headerStyle: {
+        backgroundColor: '#fff',
+      },
+      headerTitleStyle: {
+        fontWeight: 'bold',
+        fontSize: 18
+      },
+      headerRight: (
+        <TouchableOpacity onPress={() => navigation.navigate('Cart', {
+          item: navigation.getParam('cartItems')
+        })}>
+          <Icon style={styles.icon} name="add-to-cart" />
+        </TouchableOpacity>
+      ),
+    };
+  };
 }
 
 export default flowright(
@@ -149,25 +202,6 @@ export default flowright(
     name: "getProductsQuery"
   }),
 )(ProductsScreen)
-
-ProductsScreen.navigationOptions = ({ navigation }) => {
-  return {
-    title: 'PRODUCTS',
-    headerTintColor: '#000000',
-    headerStyle: {
-      backgroundColor: '#fff',
-    },
-    headerTitleStyle: {
-      fontWeight: 'bold',
-      fontSize: 18
-    },
-    headerRight: (
-      <TouchableOpacity onPress={() => navigation.navigate('Cart')}>
-        <Icon style={styles.icon} name="add-to-cart" />
-      </TouchableOpacity>
-    ),
-  };
-};
 
 const productStyles = StyleSheet.create({
 
