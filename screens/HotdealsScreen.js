@@ -1,93 +1,91 @@
 import React from 'react';
-import { ScrollView, StyleSheet} from 'react-native';
-import { View, Image } from '@shoutem/ui';
-import {styles} from './../components/styles';
+import { ScrollView, StyleSheet } from 'react-native';
+import { View, Image, Text } from '@shoutem/ui';
+import { styles } from './../components/styles';
 
 import { gql } from 'apollo-boost';
 import { graphql } from 'react-apollo';
 
-const getBranchesQuery = gql`
+const getHotdealsQuery = gql`
   {
-    branches {
-      id 
-      name
+    hotdeals {
+      id
+      image
     }
   }
 `
 
 class HomeScreen extends React.Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-          photos:
-          [
-            { "image": { "url": "https://shoutem.github.io/static/getting-started/restaurant-1.jpg" } },
-            { "image": { "url": "https://shoutem.github.io/static/getting-started/restaurant-2.jpg" } },
-            { "image": { "url": "https://shoutem.github.io/static/getting-started/restaurant-3.jpg" } },
-            { "image": { "url": "https://shoutem.github.io/static/getting-started/restaurant-4.jpg" } },
-            { "image": { "url": "https://shoutem.github.io/static/getting-started/restaurant-5.jpg" } },
-            { "image": { "url": "https://shoutem.github.io/static/getting-started/restaurant-6.jpg" } },
-            { "image": { "url": "https://shoutem.github.io/static/getting-started/restaurant-7.jpg" } }
-          ]
-        }
-        
-      }
-      
-      getBranches(){
-        let data = this.props.data;
-        if(data.loading){
-          // return (<div>Loading</div>)
-          console.log('Loading')
-        }else {
-          return data.branches.map(branch => {
-            return (
-              console.log(branch.name)
-            )
-          })
-        }
-      }
-      
-      
-      render() {
-        return (
-            <ScrollView style={styles.container}>
-                {/* Hot Deal */}
-              <ScrollView>
-                {
-                  this.state.photos.map((photo, id) => {
-                    return (
-                        
-                            <View key={id} style={hotdealsStyles.space}>
-                                <Image styleName="large-wide" source={{uri: photo.image.url}} />
-                            </View>
-                     
-                    )
-                  })
-                }
-              </ScrollView>
-            </ScrollView>
-        );
-      }
+  constructor(props) {
+    super(props);
+    this.state = {
+      photos: []
+    }
+  }
+
+  getHotdeals(data) {
+    if (data.loading) {
+      console.log('Loading')
+    } else {
+      data.hotdeals.forEach(hotdeal => {
+        this.state.photos.push({
+          "image": {
+            "url": hotdeal.image 
+          },
+          "id": hotdeal.id
+        })
+      })
+    }
+  }
+
+
+  render() {
+    const data = this.props.data;
+    this.getHotdeals(data)
+    console.log(this.state.photos)
+    if (data.loading) {
+      return <View style={styles.containerPriceProduct}><Text>Loading</Text></View>
+    }
+    else {
+      return (
+        <ScrollView style={styles.container}>
+          {/* Hot Deal */}
+          <ScrollView>
+            {
+              this.state.photos.map(photo => {
+                return (
+                  <View key={photo.id} style={hotdealsStyles.space}>
+                    <Image styleName="large-wide" source={{ uri: photo.image.url }} />
+                  </View>
+                )
+              })
+            }
+          </ScrollView>
+        </ScrollView>
+      );
+    }
+
+  }
 }
 
-export default graphql(getBranchesQuery)(HomeScreen);
+export default graphql(getHotdealsQuery)(HomeScreen);
 
 HomeScreen.navigationOptions = {
   title: 'HOT DEALS',
-  headerTintColor :'#000000',
-    headerStyle: {
-      backgroundColor: '#fff',
-      borderBottomWidth: 0.3,
-      borderBottomColor: '#000000'
-    },
-    headerTitleStyle: {
-      fontWeight: 'bold',
-      fontSize: 18
-    },
+  headerTintColor: '#000000',
+  headerStyle: {
+    backgroundColor: '#fff',
+    borderBottomWidth: 0.3,
+    borderBottomColor: '#000000'
+  },
+  headerTitleStyle: {
+    fontWeight: 'bold',
+    fontSize: 18
+  },
 };
 
 const hotdealsStyles = StyleSheet.create({
-  space:{
+  space: {
     paddingBottom: 10,
   },
 });

@@ -73,6 +73,7 @@ class Cart extends React.Component {
                                         borderColor='#c2185b'
                                         textColor='#000000'
                                         value={item.quantity}
+                                        step={1}
                                         onChange={value => console.log(value)} />
                                 </View>
                                 <Text style={cartStyles.floatRight}>{item.price}</Text>
