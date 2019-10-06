@@ -78,8 +78,35 @@ import { StyleSheet } from 'react-native'
         fontSize: 12,
         flex: 1,
         width: '5%'
-    }
-
+    }, 
+    inputLogin:{
+        width: '80%',
+        height: 'auto',
+        borderRadius: 20,
+        borderColor: 'black',
+        borderWidth: 1,
+        flexDirection: 'row',
+        alignItems: 'center',
+        marginLeft: 'auto',
+        marginRight: 'auto',
+        marginBottom: 20
+    },
+    buttonStyleMain: {
+        height: 'auto',
+        width: '50%',
+        borderRadius: 20,
+        borderWidth: 2,
+        backgroundColor: '#c2185b',
+        marginLeft: 'auto',
+        marginRight: 'auto',
+        marginBottom: 10
+    },
+    sameRowMain: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        marginLeft: 'auto',
+        marginRight: 'auto',
+    },
  })
   
  const buttons = StyleSheet.create({  
