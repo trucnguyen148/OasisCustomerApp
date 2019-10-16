@@ -49,4 +49,15 @@ const getProductsQuery = gql`
       }
   }
 `
-export  {getBookingsQuery, getServicesQuery, getProductsQuery}
+const createCategoryQuery = gql`
+  mutation($name: String, $type: Int){
+    createCategory(input: {
+      type: $type,
+      name: $name,
+    }) {
+        id 
+      }
+  }
+`
+
+export { getBookingsQuery, getServicesQuery, getProductsQuery, createCategoryQuery }

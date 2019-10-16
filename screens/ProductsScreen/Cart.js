@@ -31,9 +31,87 @@ class Cart extends React.Component {
     }
 
     getTotalPrice(products) {
-        return products.reduce((acc, item) =>  {
+        return products.reduce((acc, item) => {
             return acc + (parseInt(this.removeEur(item.price)) * item.quantity)
         }, 0)
+    }
+
+    createInvoice() {
+        const invoiceData = this.getInfToMakeBill(
+            this.createProductsArrayToMakeBill(
+                this.filterProductsToMakeBill(this.state.products)
+            )
+        )
+
+        var data = new FormData();
+        data.append("cus_id", invoiceData.cus_id);
+        data.append("emp_id", invoiceData.emp_id);
+        data.append("date_time", invoiceData.date_time);
+        data.append("progress", invoiceData.progress);
+        data.append("products", invoiceData.products);
+
+        var xhr = new XMLHttpRequest();
+        xhr.withCredentials = true;
+
+        xhr.addEventListener("readystatechange", function () {
+            if (this.readyState === this.DONE) {
+                console.log(this.responseText);
+            }
+        });
+
+        xhr.open("POST", "http://127.0.0.1:8000/api/booking/create");
+
+        xhr.send(data);
+
+
+    }
+
+    getInfToMakeBill(products) {
+        return {
+            cus_id: global.user[0].id,
+            emp_id: 0,
+            date_time: this.getCurrentDateTime(),
+            progress: 2,
+            products: products
+        }
+    }
+
+    filterProductsToMakeBill(products) {
+        let productIdsAndQuantity = []
+        products.forEach(product => {
+            productIdsAndQuantity.push({
+                "id": product.id,
+                "quantity": product.quantity
+            })
+        })
+        return productIdsAndQuantity
+    }
+
+    createProductsArrayToMakeBill(filterProducts) {
+        let productsArray = []
+        filterProducts.forEach(product => {
+            for (let i = 0; i < product.quantity; i++) {
+                productsArray.push(product.id)
+            }
+        })
+        return productsArray.join(",")
+    }
+
+    getCurrentDateTime() {
+        let current_date_time = new Date();
+        return (
+            current_date_time.getFullYear() +
+            "-" +
+            ("0" + parseInt(current_date_time.getMonth() + 1)).slice(-2) +
+            "-" +
+            ("0" + current_date_time.getDate()).slice(-2) +
+            " " +
+            ("0" + current_date_time.getHours()).slice(-2) +
+            ":" +
+            ("0" + current_date_time.getMinutes()).slice(-2) +
+            ":" +
+            ("0" + current_date_time.getSeconds()).slice(-2)
+        );
     }
 
     render() {
@@ -88,8 +166,12 @@ class Cart extends React.Component {
                     <Divider />
                     <Button
                         style={buttons.primary} styleName="secondary"
-                        onPress={() => this.props.navigation.navigate('Delivery')}
-                    >
+                        onPress={() => {
+                            this.createInvoice()
+                            this.props.navigation.navigate('Delivery', {
+                                products: this.state.products
+                            })
+                        }}>
                         <Text style={buttons.primaryText}>Confirm</Text>
                     </Button>
                 </ScrollView>

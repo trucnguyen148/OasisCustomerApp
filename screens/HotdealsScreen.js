@@ -42,7 +42,6 @@ class HomeScreen extends React.Component {
   render() {
     const data = this.props.data;
     this.getHotdeals(data)
-    console.log(this.state.photos)
     if (data.loading) {
       return <View style={styles.containerPriceProduct}><Text>Loading</Text></View>
     }

@@ -2,61 +2,38 @@ import React from 'react';
 import { ScrollView } from 'react-native';
 import { Subtitle, Text, Button, View } from '@shoutem/ui';
 import { Input } from 'react-native-elements';
-import {styles, buttons} from './../../components/styles'
+import { styles, buttons } from './../../components/styles'
 
 class Delivery extends React.Component {
-    constructor(props){
+    constructor(props) {
         super(props);
-        this.state ={
+        this.state = {
             profiles: [
                 {
+                    "id": 2,
                     "image": "https://shoutem.github.io/static/getting-started/restaurant-1.jpg",
-                    "name": "Nguyen Van Troi",
+                    "name": "Truc",
                     "address": "Kajaanintie 40 A 35/1",
                     "postal": "90130",
                     "city": "Oulu",
                     "country": "Finland",
-                    "phone": "090 xxx xxxxx",
-                    "email": "xxxxxx@oasis.vn",
-                    "usaged": {
-                        "services": {
-                            "service1": {
-                                "name": "Permanent make-up",
-                                "time": "8:30",
-                                "date": "23/10/2018",
-                                "bill": "xxxxxx000",
-                                "pics": ["https://shoutem.github.io/static/getting-started/restaurant-1.jpg", "https://shoutem.github.io/static/getting-started/restaurant-2.jpg", "https://shoutem.github.io/static/getting-started/restaurant-3.jpg", "https://shoutem.github.io/static/getting-started/restaurant-4.jpg"],
-                                "detailService": ["eyebrown", "lips", "eyes"]
-                                },
-                            "service2": {
-                                "name": "Nails",
-                                "time": "8:30",
-                                "date": "23/10/2018",
-                                "bill": "xxxxxx001",
-                                "pics": {
-                                    "url1": "https://shoutem.github.io/static/getting-started/restaurant-1.jpg",
-                                    "url2": "https://shoutem.github.io/static/getting-started/restaurant-2.jpg",
-                                    "url3": "https://shoutem.github.io/static/getting-started/restaurant-3.jpg",
-                                    "url4": "https://shoutem.github.io/static/getting-started/restaurant-1.jpg"
-                                },
-                                "detailService": ["paiting", "serving"]
-                            }
-                        },
-                        "stylist": "Thao Trang",
-                        "products": ["Orange OPI Nails Polish", "Black OPI Nails Polish"]
-                    }  
-                } 
-                
-            ]
+                    "phone": "01234",
+                    
+                }
+            ],
+            products: []
         }
     }
 
-    render(){
+    render() {
         const profiles = this.state.profiles;
-        return(
+        this.state.products = this.props.navigation.getParam('products', '');
+        console.log(this.state.products)
+
+        return (
             <ScrollView style={styles.container}>
-                {profiles.map((profile,id) => {
-                    return(
+                {profiles.map((profile, id) => {
+                    return (
                         <View key={id}>
                             <View style={styles.sameRow}>
                                 <Subtitle>Name:</Subtitle>
@@ -85,14 +62,14 @@ class Delivery extends React.Component {
                         </View>
                     )
                 })}
-                
-                <Button 
+
+                <Button
                     onPress={() => this.props.navigation.navigate('Payments')}
-                    style={buttons.primary} 
+                    style={buttons.primary}
                 >
                     <Text style={buttons.primaryText}>Payment Options</Text>
                 </Button>
-                
+
             </ScrollView>
         )
     }
@@ -102,14 +79,14 @@ export default Delivery
 
 Delivery.navigationOptions = {
     title: 'DELIVERY',
-    headerTintColor :'#000000',
+    headerTintColor: '#000000',
     headerStyle: {
-      backgroundColor: '#fff',
-      borderBottomWidth: 0.3,
-      borderBottomColor: '#000000'
+        backgroundColor: '#fff',
+        borderBottomWidth: 0.3,
+        borderBottomColor: '#000000'
     },
     headerTitleStyle: {
-      fontWeight: 'bold',
-      fontSize: 18
+        fontWeight: 'bold',
+        fontSize: 18
     },
-  };
+};

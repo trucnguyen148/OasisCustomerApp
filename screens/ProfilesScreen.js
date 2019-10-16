@@ -1,82 +1,99 @@
 import React from 'react';
-import { ScrollView, StyleSheet } from 'react-native';
-import { View, Card, Text, Subtitle, Button,  TouchableOpacity, Divider } from '@shoutem/ui';
+import { ScrollView, StyleSheet, FlatList } from 'react-native';
+import { View, Card, Text, Subtitle, Button, TouchableOpacity, Divider } from '@shoutem/ui';
 import { Image } from '@shoutem/ui/html';
-import {styles, buttons} from './../components/styles';
+import { styles, buttons } from './../components/styles';
+import { URL } from './../components/api';
+
 class ProfilesScreen extends React.Component {
-    constructor(props){
+    constructor(props) {
         super(props);
-        this.state ={
-            profiles: [
-                {
-                    "image": "https://shoutem.github.io/static/getting-started/restaurant-1.jpg",
-                    "name": "Nguyen Van Troi",
-                    "address": "Kajaanintie 40 A 35/1",
-                    "postal": "90130",
-                    "city": "Oulu",
-                    "country": "Finland",
-                    "phone": "090 xxx xxxxx",
-                    "email": "xxxxxx@oasis.vn",
-                    "usaged": {
-                        "services": {
-                            "service1": {
-                                "name": "Permanent make-up",
-                                "time": "8:30",
-                                "date": "23/10/2018",
-                                "bill": "xxxxxx000",
-                                "pics": ["https://shoutem.github.io/static/getting-started/restaurant-1.jpg", "https://shoutem.github.io/static/getting-started/restaurant-2.jpg", "https://shoutem.github.io/static/getting-started/restaurant-3.jpg", "https://shoutem.github.io/static/getting-started/restaurant-4.jpg"],
-                                "detailService": ["eyebrown", "lips", "eyes"]
-                                },
-                            "service2": {
-                                "name": "Nails",
-                                "time": "8:30",
-                                "date": "23/10/2018",
-                                "bill": "xxxxxx001",
-                                "pics": {
-                                    "url1": "https://shoutem.github.io/static/getting-started/restaurant-1.jpg",
-                                    "url2": "https://shoutem.github.io/static/getting-started/restaurant-2.jpg",
-                                    "url3": "https://shoutem.github.io/static/getting-started/restaurant-3.jpg",
-                                    "url4": "https://shoutem.github.io/static/getting-started/restaurant-1.jpg"
-                                },
-                                "detailService": ["paiting", "serving"]
-                            }
-                        },
-                        "stylist": "Thao Trang",
-                        "products": ["Orange OPI Nails Polish", "Black OPI Nails Polish"]
-                    }  
-                } 
-                
-            ]
+        this.state = {
+            loadingProfile: true,
+            loadingBookings: true,
+            bookings: [],
+            profile: [],
         }
     }
 
-    render(){
-        const profiles = this.state.profiles;
-        return(
-            <ScrollView style={styles.container}>
-                <View title="CARD WITH DIVIDER">
-                {
-                    profiles.map((profile, i) => {
-                    return (
-                        <View key={i} >
+    componentDidMount() {
+        this.getProfile(global.user[0].profile_id)
+    }
+
+    getProfile(id) {
+        fetch(URL + "profile/" + id + "")
+            .then(response => response.json())
+            .then((responseJson) => {
+                this.setState({
+                    profile: responseJson,
+                })
+            })
+            .then(() => {
+                this.setState({
+                    loadingProfile: false,
+                })
+            })
+            .then(() => {
+                this.getBooking(this.state.profile.customer_id)
+            })
+            .catch(error => console.log(error))
+    }
+
+    getBooking(cus_id) {
+        fetch(URL + "booking/customer/" + cus_id + "")
+            .then(response => response.json())
+            .then((responseJson) => {
+                this.setState({
+                    bookings: responseJson,
+                })
+            })
+            .then(() => {
+                this.setState({
+                    loadingBookings: false,
+                })
+            })
+            .catch(error => console.log(error))
+    }
+
+    render() {
+        if (this.state.loadingProfile) {
+            return (
+                <View>
+                    <Subtitle>loading profile</Subtitle>
+                </View>
+            )
+        } else {
+            if (this.state.loadingBookings) {
+                return (
+                    <View>
+                        <Subtitle>loading bookings</Subtitle>
+                    </View>
+                )
+            } else {
+                const profile = this.state.profile
+
+                return (
+                    <ScrollView style={styles.container}>
+                        <View title="CARD WITH DIVIDER">
+
                             <View style={styles.sameRow}>
                                 <View>
-                                    <Image style={profileStyles.image} source={{uri: profile.image}}/>
+                                    <Image style={profileStyles.image} source={{ uri: profile.image }} />
                                     <Button style={buttons.edit} onPress={() => this.props.navigation.navigate('Edit')}><Text style={styles.edituploadText}>Edit</Text></Button>
                                 </View>
                                 <Text style={profileStyles.name}>{profile.name}</Text>
                             </View>
                             <View style={styles.sameRow}>
-                                    <Subtitle>Address:</Subtitle>
-                                    <Text style={styles.floatRight}>{profile.address}</Text>
+                                <Subtitle>Address:</Subtitle>
+                                <Text style={styles.floatRight}>{profile.address}</Text>
                             </View>
                             <View style={styles.sameRow}>
-                                    <Subtitle>Postal Code:</Subtitle>
-                                    <Text style={styles.floatRight}>{profile.postal}</Text>
+                                <Subtitle>Postal Code:</Subtitle>
+                                <Text style={styles.floatRight}>{profile.postal_code}</Text>
                             </View>
                             <View style={styles.sameRow}>
-                                    <Subtitle>City:</Subtitle>
-                                    <Text style={styles.floatRight}>{profile.city}</Text>
+                                <Subtitle>City:</Subtitle>
+                                <Text style={styles.floatRight}>{profile.city}</Text>
                             </View>
                             <View style={styles.sameRow}>
                                 <Subtitle>Country:</Subtitle>
@@ -86,50 +103,61 @@ class ProfilesScreen extends React.Component {
                                 <Subtitle>Phone number:</Subtitle>
                                 <Text style={styles.floatRight}>{profile.phone}</Text>
                             </View>
-                            
+
                             <Subtitle>Usaged Service(s) and Bought Product(s):</Subtitle>
-                            <Divider/>
-                            <TouchableOpacity
-                            onPress={() => this.props.navigation.navigate('Details')}>
-                            <Card 
-                                style={profileStyles.card}
-                            >
-                                <Text style={profileStyles.headerCard}>{profile.usaged.services.service1.name}</Text>
-                                <Divider />
-                                <View style={profileStyles.card}>
-                                    <View style={styles.sameRow}>
-                                        <Text style={profileStyles.floatRightTime}>{profile.usaged.services.service1.time}</Text>
-                                        <Text style={profileStyles.floatRightDate}>{profile.usaged.services.service1.date}</Text>
+                            <Divider />
+
+                            <FlatList
+                                data={this.state.bookings}
+                                keyExtractor={(item, index) => index.toString()}
+                                renderItem={({ item }) => (
+                                    <View>
+                                        <TouchableOpacity
+                                            onPress={() => this.props.navigation.navigate('Details', {
+                                                booking: item
+                                            })}>
+                                            <Card
+                                                style={profileStyles.card}
+                                            >
+                                                <Text style={profileStyles.headerCard}>{item.name}</Text>
+                                                <Divider />
+                                                <View style={profileStyles.card}>
+                                                    <View style={styles.sameRow}>
+                                                        <Text style={profileStyles.floatRightTime}>{ item.date_time.split(" ")[1] }</Text>
+                                                        <Text style={profileStyles.floatRightDate}>{ item.date_time.split(" ")[0] }</Text>
+                                                    </View>
+                                                </View>
+                                            </Card>
+                                        </TouchableOpacity>
                                     </View>
-                                </View>
-                            </Card>
-                            </TouchableOpacity>
-                            
+                                )}
+                            />
+
                         </View>
-                    );
-                    })
-                }
-                </View>
-            </ScrollView>
-        )
+                    </ScrollView>
+                )
+            }
+
+        }
+
     }
 }
 export default ProfilesScreen
 
 ProfilesScreen.navigationOptions = {
     title: 'YOUR PROFILE',
-    headerTintColor :'#000000',
+    headerTintColor: '#000000',
     headerStyle: {
-      backgroundColor: '#fff',
-      borderBottomWidth: 0.3,
-      borderBottomColor: '#000000',
+        backgroundColor: '#fff',
+        borderBottomWidth: 0.3,
+        borderBottomColor: '#000000',
     },
     headerTitleStyle: {
-      fontWeight: 'bold',
-      fontSize: 18
+        fontWeight: 'bold',
+        fontSize: 18
     },
-  };
-  
+};
+
 const profileStyles = StyleSheet.create({
     card: {
         // borderColor: 'black',
@@ -168,7 +196,7 @@ const profileStyles = StyleSheet.create({
         right: '50%',
         color: '#fff'
     },
-    floatRightBill:{
+    floatRightBill: {
         // position: 'absolute',
         // right: '20%',
         textAlign: 'center',
@@ -188,5 +216,5 @@ const profileStyles = StyleSheet.create({
     width: {
         flex: 1
     }
-    
+
 })

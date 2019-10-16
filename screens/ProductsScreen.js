@@ -114,7 +114,7 @@ class ProductsScreen extends React.Component {
     const { search } = this.state;
     const data = this.props.getProductsQuery;
     this.getCategory(data, this.state.firstTime)
- 
+
     if (data.loading) {
       return <View style={styles.containerPriceProduct}><Text>Loading</Text></View>
     } else {
@@ -200,7 +200,7 @@ class ProductsScreen extends React.Component {
 export default flowright(
   graphql(getProductsQuery, {
     name: "getProductsQuery"
-  }),
+  })
 )(ProductsScreen)
 
 const productStyles = StyleSheet.create({

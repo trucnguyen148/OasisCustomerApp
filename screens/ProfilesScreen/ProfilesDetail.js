@@ -1,142 +1,187 @@
 import React from 'react';
-import { ScrollView, StyleSheet } from 'react-native';
+import { ScrollView, StyleSheet, FlatList } from 'react-native';
 import { NavigationBar, Heading, Title, View, Card, Text, Subtitle, Button, ListView, GridRow, TouchableOpacity } from '@shoutem/ui';
 import { Image } from '@shoutem/ui/html';
-
+import { URL } from './../../components/api';
 
 class ProfilesDetail extends React.Component {
-    constructor(props){
+    constructor(props) {
         super(props);
-        this.state ={
-            profiles: [
-                {
-                    "image": "https://shoutem.github.io/static/getting-started/restaurant-1.jpg",
-                    "name": "Nguyen Van Troi",
-                    "address": "319 Nam Ki Khoi Nghia, Quan 1, Tp.HCM",
-                    "phone": "090 xxx xxxxx",
-                    "email": "xxxxxx@oasis.vn",
-                    "usaged": {
-                        "services": {
-                            "service1": {
-                                "name": "Permanent make-up",
-                                "time": "8:30",
-                                "date": "23/10/2018",
-                                "bill": "xxxxxx000",
-                                "pics": ["https://shoutem.github.io/static/getting-started/restaurant-1.jpg", "https://shoutem.github.io/static/getting-started/restaurant-2.jpg", "https://shoutem.github.io/static/getting-started/restaurant-3.jpg", "https://shoutem.github.io/static/getting-started/restaurant-4.jpg"],
-                                // "detailService": [
-                                //     {"name": "eye"},
-                                //     {"name": "lips"}
-                                // ],
-                                "detailService": [ "eyes", "lips"]
-                                },
-                            "service2": {
-                                "name": "Nails",
-                                "time": "8:30",
-                                "date": "23/10/2018",
-                                "bill": "xxxxxx001",
-                                "pics": {
-                                    "url1": "https://shoutem.github.io/static/getting-started/restaurant-1.jpg",
-                                    "url2": "https://shoutem.github.io/static/getting-started/restaurant-2.jpg",
-                                    "url3": "https://shoutem.github.io/static/getting-started/restaurant-3.jpg",
-                                    "url4": "https://shoutem.github.io/static/getting-started/restaurant-1.jpg"
-                                },
-                                "detailService": ["paiting", "serving"]
-                            }
-                        },
-                        "stylist": "Thao Trang",
-                        "products": [
-                            {"name": "Orange OPI Nails Polish"},
-                            {"name": "Black OPI Nails Polish"}
-                        ]
-                    }  
-                } 
-                
-            ]
+        this.state = {
+            booking: {},
+            employee: [],
+            products: [],
+            loadingEmployee: true,
+            loadingProducts: true,
+            requests: [],
         }
+
     }
-    // test = () => {
-    //     const testing = this.state.profiles.products;
-    //     return (
-    //         <View>
-    //             {
-    //                 testing.map((item, id) =>{
-    //                     return(
-    //                         <Text key={id} >{item}</Text>
-    //                     )
-    //                 })
-    //             }
-    //         </View>
-    //     )
-    // }
 
-    render(){
-        const profiles = this.state.profiles;
+    componentDidMount() {
+        this.state.booking = this.props.navigation.getParam('booking', '');
+        this.getEmp(this.state.booking.emp_id)
+        this.getProducts(this.state.booking.id)
+    }
 
-        return(
-            <ScrollView style={styles.container}>
-                <View title="CARD WITH DIVIDER">
-                {
-                    profiles.map((profile, i) => {   
-                    return (
-                        <View key={i} >
-                            <Title style={styles.header}>{profile.usaged.services.service1.name}</Title>
-                            <View style={styles.sameRow}>
-                                <Subtitle>Bill number:</Subtitle>
-                                <Text style={styles.floatRight}>{profile.usaged.services.service1.bill}</Text>
-                            </View>
-                            <View style={styles.sameRow}>
-                                <Subtitle>Time:</Subtitle>
-                                <Text style={styles.floatRight}>{profile.usaged.services.service1.time}</Text>
-                            </View>
-                            <View style={styles.sameRow}>
-                                <Subtitle>Date:</Subtitle>
-                                <Text style={styles.floatRight}>{profile.usaged.services.service1.date}</Text>
-                            </View>
-                            <View style={styles.sameRow}>
-                                <Subtitle>Usaged Service(s):</Subtitle>
-                                <Text style={styles.floatRight}>{profile.usaged.services.service1.detailService}</Text>
-                            </View>
-                            {/* <View>
-                                {profile.usaged.products.map((item,id) => {
-                                    <View key={id}>
-                                        <Subtitle>Bought Product(s):</Subtitle>
-                                        <Text style={styles.floatRight}>{item[0]}</Text>
-                                    </View>
-                                })}
-                            </View> */}
-                            <View style={styles.sameRow}>
-                                <Subtitle>Bought Product(s):</Subtitle>
-                                {profile.usaged.products.map((test,id) => {
-                                    <Text key={id}>{test.name}</Text>
-                                })}
-                                {/* <Text style={styles.floatRight}>{profile.usaged.products.name}</Text> */}
-                            </View>
-                            <View style={styles.sameRow}>
-                                <Subtitle>Stylist:</Subtitle>
-                                <Text style={styles.floatRight}>{profile.usaged.stylist}</Text>
-                            </View>
-                        </View>
-                    );
-                    })
+    componentWillUnmount() {
+        this.state.requests.forEach(function (request) {
+            request.abort()
+        })
+    }
+
+    makeRequest(method, url, array) {
+        return new Promise(function (resolve, reject) {
+            var xhr = new XMLHttpRequest();
+            array.push(xhr);
+            xhr.open(method, url);
+            xhr.onload = function () {
+                if (this.status >= 200 && this.status < 300) {
+                    resolve(xhr.response);
+                } else {
+                    reject({
+                        status: this.status,
+                        statusText: xhr.statusText
+                    });
                 }
+            };
+            xhr.onerror = function () {
+                reject({
+                    status: this.status,
+                    statusText: xhr.statusText
+                });
+            };
+            xhr.send();
+        });
+    }
+
+    getEmp(id) {
+        this.makeRequest('GET', URL + "employee/" + id + "", this.state.requests)
+            .then((response) => {
+                this.setState({
+                    employee: JSON.parse(response),
+                })
+            })
+            .then(() => {
+                this.setState({
+                    loadingEmployee: false,
+                })
+            })
+            .catch(err => {
+                console.error('There was an error in employee!', err.statusText);
+            });
+    }
+
+    getProducts(id) {
+        this.makeRequest('GET', URL + "booking-products/" + id + "", this.state.requests)
+            .then((response) => {
+                this.setState({
+                    products: JSON.parse(response),
+                })
+            })
+            .then(() => {
+                this.setState({
+                    loadingProducts: false,
+                })
+            })
+            .catch(err => {
+                console.error('There was an error in products!', err.statusText);
+            });
+    }
+
+    filterProductType(type) {
+        return this.state.products.filter(product => {
+            return product.type == type
+        })
+    }
+
+    render() {
+
+        const booking = this.state.booking;
+
+        if (this.state.loadingProducts) {
+            return (
+                <View>
+                    <Subtitle>loading</Subtitle>
                 </View>
-            </ScrollView>
-        )
+            )
+        } else {
+            const employee = this.state.employee
+            const product_type1 = this.filterProductType(1)
+            const product_type2 = this.filterProductType(2)
+
+            return (
+                <ScrollView style={styles.container}>
+                    <View title="CARD WITH DIVIDER">
+                        <Title style={styles.header}>{booking.name}</Title>
+                        <View style={styles.sameRow}>
+                            <Subtitle>Bill id:</Subtitle>
+                            <Text style={styles.floatRight}>{booking.id}</Text>
+                        </View>
+                        <View style={styles.sameRow}>
+                            <Subtitle>Stylist:</Subtitle>
+                            <Text style={styles.floatRight}>{employee.name}</Text>
+                        </View>
+                        <View style={styles.sameRow}>
+                            <Subtitle>Time:</Subtitle>
+                            <Text style={styles.floatRight}>{booking.date_time.split(" ")[1]}</Text>
+                        </View>
+                        <View style={styles.sameRow}>
+                            <Subtitle>Date:</Subtitle>
+                            <Text style={styles.floatRight}>{booking.date_time.split(" ")[0]}</Text>
+                        </View>
+
+                        <View style={styles.sameRow}>
+                            <Subtitle>Usaged Service(s):</Subtitle>
+                        </View>
+
+                        <FlatList
+                            data={product_type2}
+                            keyExtractor={(item, index) => index.toString()}
+                            renderItem={({ item }) => (
+                                <View style={styles.sameRow}>
+                                    <Text style={styles.floatRight}>{item.name}</Text>
+                                </View>
+                            )}
+                        />
+
+                        <View style={styles.sameRow}>
+                            <Subtitle>Bought Product(s):</Subtitle>
+                        </View>
+
+                        <FlatList
+                            data={product_type1}
+                            keyExtractor={(item, index) => index.toString()}
+                            renderItem={({ item }) => (
+                                <View style={styles.sameRow}>
+                                    <Text style={styles.floatRight}>{item.name}</Text>
+                                </View>
+                            )}
+                        />
+
+
+                    </View>
+                </ScrollView>
+            )
+        }
+
+
+
     }
 }
 export default ProfilesDetail
 
 ProfilesDetail.navigationOptions = {
     title: 'DETAILS PROFILE',
-    headerTintColor :'#000000',
+    headerTintColor: '#000000',
     headerStyle: {
-      backgroundColor: '#fff',
-      borderBottomWidth: 0.3,
-      borderBottomColor: '#000000'
+        backgroundColor: '#fff',
+        borderBottomWidth: 0.3,
+        borderBottomColor: '#000000'
     },
     headerTitleStyle: {
-      fontWeight: 'bold',
-      fontSize: 18
+        fontWeight: 'bold',
+        fontSize: 18
     },
 }
 
@@ -185,5 +230,5 @@ const styles = StyleSheet.create({
         fontWeight: 'bold',
         marginBottom: 50
     },
-    
+
 })

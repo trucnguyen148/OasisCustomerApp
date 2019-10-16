@@ -19,6 +19,7 @@
     "@shoutem/animation": "^0.12.3",
     "@shoutem/ui": "^1.0.1",
     "@wojtekmaj/react-datetimerange-picker": "^2.3.0",
+    "abort-controller": "^3.0.0",
     "apollo-boost": "^0.4.4",
     "expo": "^34.0.1",
     "expo-asset": "^6.0.0",

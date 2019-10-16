@@ -1,5 +1,5 @@
 import React from 'react';
-import { Platform, StyleSheet,Text } from 'react-native';
+import { Platform, StyleSheet, Text } from 'react-native';
 import { createStackNavigator, createBottomTabNavigator } from 'react-navigation';
 import Icon from "react-native-vector-icons/Ionicons";
 import TabBarIcon from '../components/TabBarIcon';
@@ -35,7 +35,7 @@ const HotdealsStack = createStackNavigator(
 
 HotdealsStack.navigationOptions = {
   tabBarLabel: ({ tintColor }) => (
-    <Text style={[styles.label, {color: tintColor}]}>
+    <Text style={[styles.label, { color: tintColor }]}>
       Hot Deals
     </Text>
   ),
@@ -60,13 +60,13 @@ const PricelistStack = createStackNavigator(
 
 PricelistStack.navigationOptions = {
   tabBarLabel: ({ tintColor }) => (
-    <Text style={[styles.label, {color: tintColor}]}>
+    <Text style={[styles.label, { color: tintColor }]}>
       Price List
     </Text>
   ),
   tabBarIcon: ({ tintColor }) => (
     <Icon
-    name={Platform.OS === 'ios' ? 'ios-list' : 'md-list'}
+      name={Platform.OS === 'ios' ? 'ios-list' : 'md-list'}
       size={21}
       color={tintColor}
     />
@@ -88,15 +88,15 @@ const BookingsStack = createStackNavigator(
 
 BookingsStack.navigationOptions = {
   tabBarLabel: ({ tintColor }) => (
-    <Text style={[styles.label, {color: tintColor}]}>
-     Bookings
+    <Text style={[styles.label, { color: tintColor }]}>
+      Bookings
     </Text>
   ),
   tabBarIcon: ({ tintColor }) => (
     <Icon
-    name={Platform.OS === 'ios' ? 'ios-calendar' : 'md-calendar'}
-    size={21}
-    color={tintColor}
+      name={Platform.OS === 'ios' ? 'ios-calendar' : 'md-calendar'}
+      size={21}
+      color={tintColor}
     />
   )
 };
@@ -118,14 +118,14 @@ const ProductsStack = createStackNavigator(
 
 ProductsStack.navigationOptions = {
   tabBarLabel: ({ tintColor }) => (
-    <Text style={[styles.label, {color: tintColor}]}>
+    <Text style={[styles.label, { color: tintColor }]}>
       Products
     </Text>
   ),
   tabBarIcon: ({ tintColor }) => (
     <Icon
-    name={Platform.OS === 'ios' ? 'ios-cart' : 'md-cart'}    size={21}
-    color={tintColor}
+      name={Platform.OS === 'ios' ? 'ios-cart' : 'md-cart'} size={21}
+      color={tintColor}
     />
   )
 };
@@ -143,7 +143,7 @@ const ProfilesStack = createStackNavigator(
 
 ProfilesStack.navigationOptions = {
   tabBarLabel: ({ tintColor }) => (
-    <Text style={[styles.label, {color: tintColor}]}>
+    <Text style={[styles.label, { color: tintColor }]}>
       Profile
     </Text>
   ),
@@ -176,7 +176,7 @@ const tabNavigator = createBottomTabNavigator({
       showIcon: true,
       style: {
         backgroundColor: '#000000',
-        
+
         // paddingTop: 1,
         height: 50,
       },
@@ -196,11 +196,11 @@ tabNavigator.path = '';
 export default tabNavigator;
 
 const styles = StyleSheet.create({
-  icon:{
+  icon: {
     backgroundColor: '#fff',
     color: '#fff'
   },
-  label:{
+  label: {
     fontSize: 10
   }
 })
