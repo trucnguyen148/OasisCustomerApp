@@ -16,7 +16,7 @@ const getBranchesQuery = gql`
 `
 
 class BookingsScreen extends React.Component {
-
+  
   constructor(props) {
     super(props);
     this.renderRow = this.renderRow.bind(this);
@@ -24,64 +24,11 @@ class BookingsScreen extends React.Component {
       branches: []
     }
   }
-
-
-  test1() {
-    // const data = this.props.data;
-    // if (data.loading) {
-    //   console.log('Loading')
-    // } else {
-    //   return rowData.map(branch => {
-    //     return (
-    //       <GridRow key={branch.id} columns={2} style={bookingsStyles.background}>
-    //         <TouchableOpacity >
-    //           <Card style={bookingsStyles.border}>
-    //             <Image
-    //               style={bookingsStyles.image}
-    //               styleName="medium-wide"
-    //               source={{ uri: "https://shoutem.github.io/static/getting-started/restaurant-1.jpg" }}
-    //             />
-    //             <View styleName="content">
-    //               <Text>{branch.name}</Text>
-    //             </View>
-    //           </Card>
-    //         </TouchableOpacity>
-    //       </GridRow>
-    //     );
-    //   })
-    // }
-  }
-
-  test () {
-    const data = this.props.data;
-    if (data.loading) {
-      console.log('Loading')
-    } else {
-      return data.branches.map(branch => {
-        return (
-          <GridRow key={branch.id} columns={2} style={bookingsStyles.background}>
-            <TouchableOpacity onPress={() => alert(branch.name)}>
-              <Card style={bookingsStyles.border}>
-                <Image
-                  style={bookingsStyles.image}
-                  styleName="medium-wide"
-                  source={{ uri: "https://shoutem.github.io/static/getting-started/restaurant-1.jpg" }}
-                />
-                <View styleName="content">
-                  <Text>{branch.name}</Text>
-                </View>
-              </Card>
-            </TouchableOpacity>
-          </GridRow>
-        );
-      })
-    }
-  }
-
-  renderRow(rowData) {
+  
+  renderRow(rowData) { 
     const cellViews = rowData.map((branch, id) => {
       return (
-        <TouchableOpacity key={id}
+        <TouchableOpacity key={id} 
         onPress={() => this.props.navigation.navigate('Services')}>
           <Card style={bookingsStyles.border}>
             <Image
@@ -99,14 +46,14 @@ class BookingsScreen extends React.Component {
         </TouchableOpacity>
       );
     });
-
-
+  
     return (
       <GridRow columns={2} style={bookingsStyles.background}>
         {cellViews}
       </GridRow>
     );
   }
+  
   render() {
     const branches = this.state.branches;
     this.test();
@@ -121,21 +68,20 @@ class BookingsScreen extends React.Component {
 
     return (
       <ScrollView style={bookingsStyles.container}>
-         <ListView
+        <ListView
           data={groupedData}
           renderRow={this.renderRow}
         />
-
       </ScrollView>
     );
   }
 }
-export default graphql(getBranchesQuery)(BookingsScreen);
+export default BookingsScreen
 
-BookingsScreen.navigationOptions = ({ navigation }) => {
+BookingsScreen.navigationOptions = ({ navigation }) =>  {
   return {
     title: 'BOOKINGS',
-    headerTintColor: '#000000',
+    headerTintColor :'#000000',
     headerStyle: {
       backgroundColor: '#fff',
       borderBottomWidth: 0.3,
@@ -147,7 +93,7 @@ BookingsScreen.navigationOptions = ({ navigation }) => {
     },
     headerRight: (
       <TouchableOpacity onPress={() => navigation.navigate('Confirmations')}>
-        <Icon style={styles.icon} name="add-event" />
+          <Icon style={styles.icon} name="add-event"/>
       </TouchableOpacity>
     ),
   };
@@ -157,25 +103,25 @@ const bookingsStyles = StyleSheet.create({
   background: {
     backgroundColor: '#fff',
   },
-  border: {
+  border:{
     borderStyle: 'solid',
     borderWidth: 1.3,
     borderColor: '#c2185b',
     paddingTop: 5,
     marginBottom: 3
-
+    
   },
-  image: {
+  image:{
     width: '95%',
     marginLeft: 'auto',
     marginRight: 'auto'
   },
-  icon: {
+  icon:{
     color: '#000000'
   },
-  container: {
+  container:{
     flex: 1,
     paddingTop: 15,
-
+       
   }
 });
