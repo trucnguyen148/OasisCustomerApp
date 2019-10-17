@@ -3,48 +3,35 @@ import { ScrollView, StyleSheet, FlatList } from 'react-native';
 import { View, Card, Text, Subtitle, Button, TouchableOpacity, Divider } from '@shoutem/ui';
 import { Image } from '@shoutem/ui/html';
 import { styles, buttons } from './../components/styles';
-import { URL } from './../components/api';
+import { URL, makeRequest } from './../components/api';
 
 class ProfilesScreen extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            loadingProfile: true,
+            loadingProfile: false,
             loadingBookings: true,
             bookings: [],
             profile: [],
+            requests: []
         }
     }
 
     componentDidMount() {
-        this.getProfile(global.user[0].profile_id)
+        this.state.profile = global.profile
+        this.getBooking(this.state.profile.customer_id)
     }
-
-    getProfile(id) {
-        fetch(URL + "profile/" + id + "")
-            .then(response => response.json())
-            .then((responseJson) => {
-                this.setState({
-                    profile: responseJson,
-                })
-            })
-            .then(() => {
-                this.setState({
-                    loadingProfile: false,
-                })
-            })
-            .then(() => {
-                this.getBooking(this.state.profile.customer_id)
-            })
-            .catch(error => console.log(error))
+    componentWillUnmount() {
+        this.state.requests.forEach(function (request) {
+            request.abort()
+        })
     }
 
     getBooking(cus_id) {
-        fetch(URL + "booking/customer/" + cus_id + "")
-            .then(response => response.json())
-            .then((responseJson) => {
+        makeRequest('GET', URL + "booking/customer/" + cus_id + "", this.state.requests)
+            .then((response) => {
                 this.setState({
-                    bookings: responseJson,
+                    bookings: JSON.parse(response),
                 })
             })
             .then(() => {
@@ -52,93 +39,88 @@ class ProfilesScreen extends React.Component {
                     loadingBookings: false,
                 })
             })
-            .catch(error => console.log(error))
+            .catch(err => {
+                console.error('There was an error in booking!', err.statusText);
+            });
     }
 
     render() {
-        if (this.state.loadingProfile) {
+        if (this.state.loadingBookings) {
             return (
                 <View>
-                    <Subtitle>loading profile</Subtitle>
+                    <Subtitle>loading bookings</Subtitle>
                 </View>
             )
         } else {
-            if (this.state.loadingBookings) {
-                return (
-                    <View>
-                        <Subtitle>loading bookings</Subtitle>
-                    </View>
-                )
-            } else {
-                const profile = this.state.profile
+            const profile = this.state.profile
 
-                return (
-                    <ScrollView style={styles.container}>
-                        <View title="CARD WITH DIVIDER">
+            return (
+                <ScrollView style={styles.container}>
+                    <View title="CARD WITH DIVIDER">
 
-                            <View style={styles.sameRow}>
-                                <View>
-                                    <Image style={profileStyles.image} source={{ uri: profile.image }} />
-                                    <Button style={buttons.edit} onPress={() => this.props.navigation.navigate('Edit')}><Text style={styles.edituploadText}>Edit</Text></Button>
-                                </View>
-                                <Text style={profileStyles.name}>{profile.name}</Text>
+                        <View style={styles.sameRow}>
+                            <View>
+                                <Image style={profileStyles.image} source={{ uri: profile.image }} />
+                                <Button style={buttons.edit} onPress={() => this.props.navigation.navigate('Edit')}><Text style={styles.edituploadText}>Edit</Text></Button>
                             </View>
-                            <View style={styles.sameRow}>
-                                <Subtitle>Address:</Subtitle>
-                                <Text style={styles.floatRight}>{profile.address}</Text>
-                            </View>
-                            <View style={styles.sameRow}>
-                                <Subtitle>Postal Code:</Subtitle>
-                                <Text style={styles.floatRight}>{profile.postal_code}</Text>
-                            </View>
-                            <View style={styles.sameRow}>
-                                <Subtitle>City:</Subtitle>
-                                <Text style={styles.floatRight}>{profile.city}</Text>
-                            </View>
-                            <View style={styles.sameRow}>
-                                <Subtitle>Country:</Subtitle>
-                                <Text style={styles.floatRight}>{profile.country}</Text>
-                            </View>
-                            <View style={styles.sameRow}>
-                                <Subtitle>Phone number:</Subtitle>
-                                <Text style={styles.floatRight}>{profile.phone}</Text>
-                            </View>
-
-                            <Subtitle>Usaged Service(s) and Bought Product(s):</Subtitle>
-                            <Divider />
-
-                            <FlatList
-                                data={this.state.bookings}
-                                keyExtractor={(item, index) => index.toString()}
-                                renderItem={({ item }) => (
-                                    <View>
-                                        <TouchableOpacity
-                                            onPress={() => this.props.navigation.navigate('Details', {
-                                                booking: item
-                                            })}>
-                                            <Card
-                                                style={profileStyles.card}
-                                            >
-                                                <Text style={profileStyles.headerCard}>{item.name}</Text>
-                                                <Divider />
-                                                <View style={profileStyles.card}>
-                                                    <View style={styles.sameRow}>
-                                                        <Text style={profileStyles.floatRightTime}>{ item.date_time.split(" ")[1] }</Text>
-                                                        <Text style={profileStyles.floatRightDate}>{ item.date_time.split(" ")[0] }</Text>
-                                                    </View>
-                                                </View>
-                                            </Card>
-                                        </TouchableOpacity>
-                                    </View>
-                                )}
-                            />
-
+                            <Text style={profileStyles.name}>{profile.name}</Text>
                         </View>
-                    </ScrollView>
-                )
-            }
+                        <View style={styles.sameRow}>
+                            <Subtitle>Address:</Subtitle>
+                            <Text style={styles.floatRight}>{profile.address}</Text>
+                        </View>
+                        <View style={styles.sameRow}>
+                            <Subtitle>Postal Code:</Subtitle>
+                            <Text style={styles.floatRight}>{profile.postal_code}</Text>
+                        </View>
+                        <View style={styles.sameRow}>
+                            <Subtitle>City:</Subtitle>
+                            <Text style={styles.floatRight}>{profile.city}</Text>
+                        </View>
+                        <View style={styles.sameRow}>
+                            <Subtitle>Country:</Subtitle>
+                            <Text style={styles.floatRight}>{profile.country}</Text>
+                        </View>
+                        <View style={styles.sameRow}>
+                            <Subtitle>Phone number:</Subtitle>
+                            <Text style={styles.floatRight}>{profile.phone}</Text>
+                        </View>
 
+                        <Subtitle>Usaged Service(s) and Bought Product(s):</Subtitle>
+                        <Divider />
+
+                        <FlatList
+                            data={this.state.bookings}
+                            keyExtractor={(item, index) => index.toString()}
+                            renderItem={({ item }) => (
+                                <View>
+                                    <TouchableOpacity
+                                        onPress={() => this.props.navigation.navigate('Details', {
+                                            booking: item
+                                        })}>
+                                        <Card
+                                            style={profileStyles.card}
+                                        >
+                                            <Text style={profileStyles.headerCard}>{item.name}</Text>
+                                            <Divider />
+                                            <View style={profileStyles.card}>
+                                                <View style={styles.sameRow}>
+                                                    <Text style={profileStyles.floatRightTime}>{item.date_time.split(" ")[1]}</Text>
+                                                    <Text style={profileStyles.floatRightDate}>{item.date_time.split(" ")[0]}</Text>
+                                                </View>
+                                            </View>
+                                        </Card>
+                                    </TouchableOpacity>
+                                </View>
+                            )}
+                        />
+
+                    </View>
+                </ScrollView>
+            )
         }
+
+
 
     }
 }

@@ -1,56 +1,61 @@
 import React from 'react';
-import { ScrollView, View } from 'react-native';
+import { ScrollView, View, FlatList } from 'react-native';
 import { Button, Text, Divider } from '@shoutem/ui';
-import {styles} from './../../components/styles'
+import { styles } from './../../components/styles'
 
+import { graphql } from 'react-apollo';
+import { getServicessQuery } from '../../components/queries/queries';
 
 class BookingService extends React.Component {
-  render(){
-    return (
-      <ScrollView style={styles.container}>
+  render() {
+    if (this.props.data.loading) {
+      return (
         <View >
-        {/* Nails button */}
-        <Button
-          style={styles.buttonStyle}
-          onPress={() => this.props.navigation.navigate('Times')}
-        >
-          <Text style={styles.buttonText}>Nails</Text>
-        </Button>
-        <Divider />
-        {/* Permanent Make-up */}
-        <Button
-          style={styles.buttonStyle}
-          onPress={() => this.props.navigation.navigate('Times')}
-        >
-          <Text style={styles.buttonText}>Permanent Make-up</Text>
-        </Button>
-        <Divider/>
-        {/* Eyelash extention */}
-        <Button
-          style={styles.buttonStyle}
-          onPress={() => this.props.navigation.navigate('Times')}
-        >
-          <Text style={styles.buttonText}>Eyelash Extention</Text>
-        </Button>
+          <Text>loading</Text>
         </View>
-      </ScrollView>
-    )
+      )
+    } else {
+      return (
+        <ScrollView style={styles.container}>
+          <FlatList
+            data={this.props.data.positions}
+            keyExtractor={(item, index) => index.toString()}
+            renderItem={({ item }) => (
+              <View >
+                <Button
+                  style={styles.buttonStyle}
+                  onPress={() => {
+                    global.booking_serviceId = item.id
+                    this.props.navigation.navigate('Times')
+                  }}
+                >
+                  <Text style={styles.buttonText}>{item.name}</Text>
+                </Button>
+                <Divider />
+              </View>
+
+            )}
+          />
+        </ScrollView>
+      )
+    }
+
   }
 }
 
-export default BookingService
+export default graphql(getServicessQuery)(BookingService)
 
 BookingService.navigationOptions = {
   title: 'SERVICE',
-  headerTintColor :'#000000',
-    headerStyle: {
-      backgroundColor: '#fff',
-      borderBottomWidth: 0.3,
-      borderBottomColor: '#000000'
-    },
-    headerTitleStyle: {
-      fontWeight: 'bold',
-      fontSize: 18
-    },
-  
+  headerTintColor: '#000000',
+  headerStyle: {
+    backgroundColor: '#fff',
+    borderBottomWidth: 0.3,
+    borderBottomColor: '#000000'
+  },
+  headerTitleStyle: {
+    fontWeight: 'bold',
+    fontSize: 18
+  },
+
 };

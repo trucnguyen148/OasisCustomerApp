@@ -16,6 +16,37 @@ const getBookingsQuery = gql`
     }
   }
 `
+
+const getServicessQuery = gql`
+  {
+    positions(type: 2){
+        id
+        name
+    }
+  }
+`
+
+const getBranchesQuery = gql`
+  {
+    branches{
+        id
+        name 
+        address
+    }
+  }
+`
+const getEmployeesQuery = gql`
+  {
+    employees {
+      id
+      name
+      branch {
+        id
+        name
+      }
+    }
+  }
+`
 const getServicesQuery = gql`
   {
     positions(type: 2) {
@@ -49,15 +80,5 @@ const getProductsQuery = gql`
       }
   }
 `
-const createCategoryQuery = gql`
-  mutation($name: String, $type: Int){
-    createCategory(input: {
-      type: $type,
-      name: $name,
-    }) {
-        id 
-      }
-  }
-`
 
-export { getBookingsQuery, getServicesQuery, getProductsQuery, createCategoryQuery }
+export { getBookingsQuery, getServicesQuery, getProductsQuery, getBranchesQuery, getEmployeesQuery, getServicessQuery }

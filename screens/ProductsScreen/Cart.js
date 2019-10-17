@@ -4,6 +4,8 @@ import { Text, View, Image, Subtitle, Divider, Button } from '@shoutem/ui';
 import { styles, buttons } from './../../components/styles'
 import NumericInput from 'react-native-numeric-input'
 
+import { URL } from '../../components/api'
+
 class Cart extends React.Component {
     constructor(props) {
         super(props);
@@ -59,11 +61,8 @@ class Cart extends React.Component {
             }
         });
 
-        xhr.open("POST", "http://127.0.0.1:8000/api/booking/create");
-
+        xhr.open("POST", URL + "booking/create");
         xhr.send(data);
-
-
     }
 
     getInfToMakeBill(products) {

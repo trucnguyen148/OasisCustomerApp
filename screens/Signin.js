@@ -2,7 +2,7 @@ import React from 'react';
 import { Animated } from 'react-native'
 import { Button, Text, View, TextInput, Icon, Divider } from '@shoutem/ui';
 import { styles } from '../components/styles';
-import { URL } from './../components/api';
+import { URL, makeRequest } from './../components/api';
 
 
 class Signin extends React.Component {
@@ -43,51 +43,8 @@ class Signin extends React.Component {
     }
   }
 
-  // checkInfo(phone, password) {
-  //   fetch(URL + "user/" + phone + "/" + password + "")
-  //     .then(response => response.json())
-  //     .then((responseJson) => {
-  //       this.setState({
-  //         user: responseJson,
-  //       })
-  //     })
-  //     .then(() => {
-  //       if (this.state.user.length < 1) {
-  //         alert("Wrong phone or password")
-  //       } else {
-  //         global.user = this.state.user
-  //         this.props.navigation.navigate('MainTabNavigator')
-  //       }
-  //     })
-  //     .catch(error => console.log(error))
-  // }
-
-  makeRequest(method, url) {
-    return new Promise(function (resolve, reject) {
-      var xhr = new XMLHttpRequest();
-      xhr.open(method, url);
-      xhr.onload = function () {
-        if (this.status >= 200 && this.status < 300) {
-          resolve(xhr.response);
-        } else {
-          reject({
-            status: this.status,
-            statusText: xhr.statusText
-          });
-        }
-      };
-      xhr.onerror = function () {
-        reject({
-          status: this.status,
-          statusText: xhr.statusText
-        });
-      };
-      xhr.send();
-    });
-  }
-
   checkInfo(phone, password) {
-    this.makeRequest('GET', URL + "user/" + phone + "/" + password + "")
+    makeRequest('GET', URL + "user/" + phone + "/" + password + "")
       .then((response) => {
         this.setState({
           user: JSON.parse(response),

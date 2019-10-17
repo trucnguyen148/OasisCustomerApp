@@ -3,47 +3,71 @@ import { ScrollView, StyleSheet } from 'react-native';
 import { View, Image, Text } from '@shoutem/ui';
 import { styles } from './../components/styles';
 
-import { gql } from 'apollo-boost';
-import { graphql } from 'react-apollo';
+import { URL, makeRequest } from '../components/api';
 
-const getHotdealsQuery = gql`
-  {
-    hotdeals {
-      id
-      image
-    }
-  }
-`
 
 class HomeScreen extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      photos: []
+      photos: [],
+      requests: [],
+      profile: [],
+      loadingHotdeals: true
     }
   }
 
-  getHotdeals(data) {
-    if (data.loading) {
-      console.log('Loading')
-    } else {
-      data.hotdeals.forEach(hotdeal => {
-        this.state.photos.push({
-          "image": {
-            "url": hotdeal.image 
-          },
-          "id": hotdeal.id
+  getHotdeals() {
+    makeRequest('GET', URL + "hotdeals", this.state.requests)
+      .then((response) => {
+        JSON.parse(response).forEach(hotdeal => {
+          this.state.photos.push({
+            "image": {
+              "url": hotdeal.image
+            },
+            "id": hotdeal.id
+          })
         })
       })
-    }
+      .then(() => {
+        this.setState({
+          loadingHotdeals: false,
+        })
+      })
+      .catch(err => {
+        console.error('There was an error in booking!', err.statusText);
+      });
   }
 
+  componentDidMount() {
+    this.getProfile(global.user[0].profile_id)
+    this.getHotdeals()
+  }
+
+  componentWillUnmount() {
+    this.state.requests.forEach(function (request) {
+      request.abort()
+    })
+  }
+
+  getProfile(id) {
+    makeRequest('GET', URL + "profile/" + id + "", this.state.requests)
+      .then((response) => {
+        this.setState({
+          profile: JSON.parse(response),
+        })
+      })
+      .then(() => {
+        global.profile = this.state.profile
+      })
+      .catch(err => {
+        console.error('There was an error in profile!', err.statusText);
+      });
+  }
 
   render() {
-    const data = this.props.data;
-    this.getHotdeals(data)
-    if (data.loading) {
-      return <View style={styles.containerPriceProduct}><Text>Loading</Text></View>
+    if (this.state.loadingHotdeals) {
+      return <View><Text>Loading</Text></View>
     }
     else {
       return (
@@ -65,23 +89,25 @@ class HomeScreen extends React.Component {
     }
 
   }
+
+
+  static navigationOptions = {
+    title: 'HOT DEALS',
+    headerTintColor: '#000000',
+    headerStyle: {
+      backgroundColor: '#fff',
+      borderBottomWidth: 0.3,
+      borderBottomColor: '#000000'
+    },
+    headerTitleStyle: {
+      fontWeight: 'bold',
+      fontSize: 18
+    },
+  };
 }
 
-export default graphql(getHotdealsQuery)(HomeScreen);
+export default HomeScreen;
 
-HomeScreen.navigationOptions = {
-  title: 'HOT DEALS',
-  headerTintColor: '#000000',
-  headerStyle: {
-    backgroundColor: '#fff',
-    borderBottomWidth: 0.3,
-    borderBottomColor: '#000000'
-  },
-  headerTitleStyle: {
-    fontWeight: 'bold',
-    fontSize: 18
-  },
-};
 
 const hotdealsStyles = StyleSheet.create({
   space: {

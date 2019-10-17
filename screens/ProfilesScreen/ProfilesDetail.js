@@ -2,7 +2,7 @@ import React from 'react';
 import { ScrollView, StyleSheet, FlatList } from 'react-native';
 import { NavigationBar, Heading, Title, View, Card, Text, Subtitle, Button, ListView, GridRow, TouchableOpacity } from '@shoutem/ui';
 import { Image } from '@shoutem/ui/html';
-import { URL } from './../../components/api';
+import { URL, makeRequest } from './../../components/api';
 
 class ProfilesDetail extends React.Component {
     constructor(props) {
@@ -30,33 +30,8 @@ class ProfilesDetail extends React.Component {
         })
     }
 
-    makeRequest(method, url, array) {
-        return new Promise(function (resolve, reject) {
-            var xhr = new XMLHttpRequest();
-            array.push(xhr);
-            xhr.open(method, url);
-            xhr.onload = function () {
-                if (this.status >= 200 && this.status < 300) {
-                    resolve(xhr.response);
-                } else {
-                    reject({
-                        status: this.status,
-                        statusText: xhr.statusText
-                    });
-                }
-            };
-            xhr.onerror = function () {
-                reject({
-                    status: this.status,
-                    statusText: xhr.statusText
-                });
-            };
-            xhr.send();
-        });
-    }
-
     getEmp(id) {
-        this.makeRequest('GET', URL + "employee/" + id + "", this.state.requests)
+        makeRequest('GET', URL + "employee/" + id + "", this.state.requests)
             .then((response) => {
                 this.setState({
                     employee: JSON.parse(response),
@@ -73,7 +48,7 @@ class ProfilesDetail extends React.Component {
     }
 
     getProducts(id) {
-        this.makeRequest('GET', URL + "booking-products/" + id + "", this.state.requests)
+        makeRequest('GET', URL + "booking-products/" + id + "", this.state.requests)
             .then((response) => {
                 this.setState({
                     products: JSON.parse(response),

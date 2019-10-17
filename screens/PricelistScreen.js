@@ -1,6 +1,6 @@
 import React from 'react';
-import { ScrollView, StyleSheet, FlatList } from 'react-native';
-import { View, Text, DropDownMenu } from '@shoutem/ui';
+import { ScrollView, StyleSheet, FlatList} from 'react-native';
+import { View, Text, DropDownMenu} from '@shoutem/ui';
 import { SearchBar } from 'react-native-elements';
 import { styles } from './../components/styles';
 
@@ -163,7 +163,7 @@ export default flowright(
 
 
 const pricelistStyles = StyleSheet.create({
-  title: {
+  title:{
     textAlign: 'center',
     marginBottom: 10,
     marginTop: 20
@@ -175,9 +175,9 @@ const pricelistStyles = StyleSheet.create({
     fontSize: 12
   },
   floatRightPrice: {
-    position: 'absolute',
-    right: 5,
-    fontSize: 12
+      position: 'absolute',
+      right: 5,
+      fontSize: 12
   },
   row: {
     elevation: 1,
@@ -191,8 +191,8 @@ const pricelistStyles = StyleSheet.create({
     marginTop: 5,
     marginBottom: 5,
   },
-  space: {
+  space:{
     marginTop: '15%'
   },
-
+  
 });
