@@ -12,14 +12,16 @@ class ProfilesScreen extends React.Component {
             loadingProfile: false,
             loadingBookings: true,
             bookings: [],
-            profile: [],
             requests: []
         }
     }
 
     componentDidMount() {
-        this.state.profile = global.profile
-        this.getBooking(global.profile.customer_id)
+        if(global.profile === undefined){
+            setTimeout(() => {
+                this.getBooking(global.profile.customer_id)
+            }, 500)
+        }
     }
     componentWillUnmount() {
         this.state.requests.forEach(function (request) {
@@ -51,7 +53,7 @@ class ProfilesScreen extends React.Component {
       source={require("./../assets/images/logo.png")}
     /></View>
         } else {
-            const profile = this.state.profile
+            const profile = global.profile
 
             return (
                 <ScrollView style={styles.container}>

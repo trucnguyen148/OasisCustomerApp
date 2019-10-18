@@ -18,6 +18,7 @@ class BookingTime extends React.Component {
       selectedTime: "",
       selectedDate: "",
       selectedEmployee: "",
+      selectedCustomer: "",
     };
     this.onDayPress = this.onDayPress.bind(this);
   }
@@ -66,42 +67,43 @@ class BookingTime extends React.Component {
   }
 
   getAllInfoForBooking() {
-    if (this.state.selectedEmployee === "") {
-      alert("Please select employee")
-    } else if (this.state.selectedDate === "" || this.state.selectedTime === "") {
-      alert("Please select time & date")
-    } else {
-      return {
-        'cus_id': global.profile.customer_id,
-        'emp_id': this.state.selectedEmployee,
-        'date_time': this.state.selectedDate + " " + this.state.selectedTime + ":00",
-        'progress': 1,
-        'products': global.booking_serviceId
-      }
+    return {
+      'cus_id': global.profile.customer_id,
+      'emp_id': this.state.selectedEmployee,
+      'date_time': this.state.selectedDate + " " + this.state.selectedTime + ":00",
+      'progress': 1,
+      'products': global.booking_serviceId
     }
   }
 
   createInvoice() {
-    const bookingInfo = this.getAllInfoForBooking()
+    if (this.state.selectedEmployee === "") {
+      return alert("Please select employee")
+    } else if (this.state.selectedDate === "" || this.state.selectedTime === "") {
+      return alert("Please select time & date")
+    } else {
+      const bookingInfo = this.getAllInfoForBooking()
+      var data = new FormData();
+      data.append("cus_id", bookingInfo.cus_id);
+      data.append("emp_id", bookingInfo.emp_id);
+      data.append("date_time", bookingInfo.date_time);
+      data.append("progress", bookingInfo.progress);
+      data.append("products", bookingInfo.products);
 
-    var data = new FormData();
-    data.append("cus_id", bookingInfo.cus_id);
-    data.append("emp_id", bookingInfo.emp_id);
-    data.append("date_time", bookingInfo.date_time);
-    data.append("progress", bookingInfo.progress);
-    data.append("products", bookingInfo.products);
+      var xhr = new XMLHttpRequest();
+      xhr.withCredentials = true;
 
-    var xhr = new XMLHttpRequest();
-    xhr.withCredentials = true;
+      xhr.addEventListener("readystatechange", function () {
+        if (this.readyState === this.DONE) {
+          console.log(this.responseText);
+        }
+      });
 
-    xhr.addEventListener("readystatechange", function () {
-      if (this.readyState === this.DONE) {
-        console.log(this.responseText);
-      }
-    });
+      xhr.open("POST", URL + "booking/create");
+      xhr.send(data);
 
-    xhr.open("POST", URL + "booking/create");
-    xhr.send(data);
+      this.props.navigation.navigate('Bookings')
+    }
   }
 
   render() {
@@ -164,7 +166,6 @@ class BookingTime extends React.Component {
             style={buttons.primary}
             onPress={() => {
               this.createInvoice()
-              this.props.navigation.navigate('Bookings')
             }}
           >
             <Text style={timeStyles.text}>Book</Text>

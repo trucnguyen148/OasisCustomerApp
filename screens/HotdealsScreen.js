@@ -12,7 +12,6 @@ class HomeScreen extends React.Component {
     this.state = {
       photos: [],
       requests: [],
-      profile: [],
       loadingHotdeals: true
     }
   }
@@ -53,12 +52,7 @@ class HomeScreen extends React.Component {
   getProfile(id) {
     makeRequest('GET', URL + "profile/" + id + "", this.state.requests)
       .then((response) => {
-        this.setState({
-          profile: JSON.parse(response),
-        })
-      })
-      .then(() => {
-        global.profile = this.state.profile
+        global.profile = JSON.parse(response)
       })
       .catch(err => {
         console.error('There was an error in profile!', err.statusText);
