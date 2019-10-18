@@ -12,14 +12,12 @@ class ProfilesScreen extends React.Component {
             loadingProfile: false,
             loadingBookings: true,
             bookings: [],
-            profile: [],
             requests: []
         }
     }
 
     componentDidMount() {
-        this.state.profile = global.profile
-        this.getBooking(this.state.profile.customer_id)
+        this.getBooking(global.profile.customer_id)
     }
     componentWillUnmount() {
         this.state.requests.forEach(function (request) {
@@ -45,14 +43,14 @@ class ProfilesScreen extends React.Component {
     }
 
     render() {
-        if (this.state.loadingBookings) {
+        if (this.state.loadingBookings || global.profile === undefined) {
             return (
                 <View>
                     <Subtitle>loading bookings</Subtitle>
                 </View>
             )
         } else {
-            const profile = this.state.profile
+            const profile = global.profile
 
             return (
                 <ScrollView style={styles.container}>
