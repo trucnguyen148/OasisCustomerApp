@@ -43,7 +43,7 @@ class ProfilesScreen extends React.Component {
     }
 
     render() {
-        if (this.state.loadingBookings || global.profile === undefined) {
+        if (this.state.loadingBookings) {
             return (
                 <View>
                     <Subtitle>loading bookings</Subtitle>
