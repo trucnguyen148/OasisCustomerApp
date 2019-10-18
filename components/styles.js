@@ -107,6 +107,23 @@ import { StyleSheet } from 'react-native'
         marginLeft: 'auto',
         marginRight: 'auto',
     },
+    logo: {
+        width: 350, 
+        height: 350, 
+        marginLeft: 'auto', 
+        marginRight: 'auto', 
+        marginTop: '27%'
+    },
+    price: {
+        width: '30%',
+        textAlign: 'center',
+    
+    },
+    name:{
+        width: '45%',
+        flex: 1,
+        textAlign: 'center',
+    },
  })
   
  const buttons = StyleSheet.create({  

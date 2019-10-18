@@ -19,7 +19,7 @@ class ProfilesScreen extends React.Component {
 
     componentDidMount() {
         this.state.profile = global.profile
-        this.getBooking(this.state.profile.customer_id)
+        this.getBooking(global.profile.customer_id)
     }
     componentWillUnmount() {
         this.state.requests.forEach(function (request) {
@@ -46,11 +46,10 @@ class ProfilesScreen extends React.Component {
 
     render() {
         if (this.state.loadingBookings) {
-            return (
-                <View>
-                    <Subtitle>loading bookings</Subtitle>
-                </View>
-            )
+            return <View><Image
+      style={styles.logo}
+      source={require("./../assets/images/logo.png")}
+    /></View>
         } else {
             const profile = this.state.profile
 

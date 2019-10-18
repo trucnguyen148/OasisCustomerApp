@@ -67,7 +67,10 @@ class HomeScreen extends React.Component {
 
   render() {
     if (this.state.loadingHotdeals) {
-      return <View><Text>Loading</Text></View>
+      return <View><Image
+      style={styles.logo}
+      source={require("./../assets/images/logo.png")}
+    /></View>
     }
     else {
       return (

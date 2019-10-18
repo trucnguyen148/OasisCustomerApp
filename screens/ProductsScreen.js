@@ -116,7 +116,10 @@ class ProductsScreen extends React.Component {
     this.getCategory(data, this.state.firstTime)
 
     if (data.loading) {
-      return <View style={styles.containerPriceProduct}><Text>Loading</Text></View>
+      return <View style={styles.containerPriceProduct}><Image
+      style={styles.logo}
+      source={require("./../assets/images/logo.png")}
+    /></View>
     } else {
       return (
         <View style={styles.containerPriceProduct}>

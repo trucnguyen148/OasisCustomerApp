@@ -1,6 +1,6 @@
 import React from 'react';
 import { ScrollView, View, FlatList } from 'react-native';
-import { Button, Text, Divider } from '@shoutem/ui';
+import { Button, Text, Divider, Image } from '@shoutem/ui';
 import { styles } from './../../components/styles'
 
 import { graphql } from 'react-apollo';
@@ -11,7 +11,10 @@ class BookingService extends React.Component {
     if (this.props.data.loading) {
       return (
         <View >
-          <Text>loading</Text>
+          <Image
+            style={styles.logo}
+            source={require("./../../assets/images/logo.png")}
+          />
         </View>
       )
     } else {

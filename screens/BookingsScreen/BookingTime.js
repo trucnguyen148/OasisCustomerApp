@@ -108,7 +108,10 @@ class BookingTime extends React.Component {
     if (this.state.loadingEmployees) {
       return (
         <View>
-          <Text>loading</Text>
+          <Image
+            style={styles.logo}
+            source={require("./../../assets/images/logo.png")}
+          />
         </View>
       )
     } else {
@@ -119,7 +122,7 @@ class BookingTime extends React.Component {
             onDayPress={this.onDayPress}
             style={timeStyles.calendar}
             hideExtraDays
-            markedDates={{ [this.state.selected]: { selected: true, disableTouchEvent: true, selectedDotColor: 'orange' } }}
+            markedDates={{ [this.state.selected]: { selected: true, disableTouchEvent: true, selectedDotColor: 'pink' } }}
           />
 
           <Title style={timeStyles.title}>Choose Time:</Title>

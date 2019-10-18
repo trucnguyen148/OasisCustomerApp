@@ -1,8 +1,9 @@
 import React from 'react';
-import { ScrollView, StyleSheet, FlatList } from 'react-native';
-import { NavigationBar, Heading, Title, View, Card, Text, Subtitle, Button, ListView, GridRow, TouchableOpacity } from '@shoutem/ui';
-import { Image } from '@shoutem/ui/html';
+import { ScrollView, FlatList, StyleSheet } from 'react-native';
+import { Title, View, Text, Subtitle, Image, Divider } from '@shoutem/ui';
 import { URL, makeRequest } from './../../components/api';
+import { styles } from './../../components/styles'
+import { LinearGradient } from 'expo-linear-gradient';
 
 class ProfilesDetail extends React.Component {
     constructor(props) {
@@ -15,9 +16,15 @@ class ProfilesDetail extends React.Component {
             loadingProducts: true,
             requests: [],
         }
-
     }
-
+    serviceSeparator = () => {
+        return (
+          //Item Separator
+          <View
+            style={{ height: 0.5, width: '100%', backgroundColor: '#FF92A5'}}
+          />
+        );
+    };
     componentDidMount() {
         this.state.booking = this.props.navigation.getParam('booking', '');
         this.getEmp(this.state.booking.emp_id)
@@ -77,7 +84,10 @@ class ProfilesDetail extends React.Component {
         if (this.state.loadingProducts) {
             return (
                 <View>
-                    <Subtitle>loading</Subtitle>
+                    <Image
+                        style={styles.logo}
+                        source={require("./../../assets/images/logo.png")}
+                    />
                 </View>
             )
         } else {
@@ -109,39 +119,59 @@ class ProfilesDetail extends React.Component {
                         <View style={styles.sameRow}>
                             <Subtitle>Usaged Service(s):</Subtitle>
                         </View>
-
-                        <FlatList
-                            data={product_type2}
-                            keyExtractor={(item, index) => index.toString()}
-                            renderItem={({ item }) => (
-                                <View style={styles.sameRow}>
-                                    <Text style={styles.floatRight}>{item.name}</Text>
-                                </View>
-                            )}
-                        />
-
+                        <LinearGradient colors={['#FFE5E5', '#FFC0CB']} >
+                           {/* Title */}
+                           <View style={profileDetailStyles.sameRow}>
+                                <Subtitle style={styles.name}>Name
+                                </Subtitle>
+                                <Subtitle style={styles.price}>Price</Subtitle>
+                            </View>
+                            <View
+                                style={{ height: 0.5, width: '100%', backgroundColor: '#FF92A5'}}
+                            />
+                            <FlatList
+                                data={product_type2}
+                                ItemSeparatorComponent={this.serviceSeparator}
+                                keyExtractor={(item, index) => index.toString()}
+                                renderItem={({ item }) => (
+                                    <View style={profileDetailStyles.sameRow}>
+                                        <Text style={styles.name}>{item.name}</Text>
+                                        <Text style={styles.price}>{item.unit_price}</Text>
+                                    </View>
+                                )}
+                            />
+                        </LinearGradient>
+                        <Divider />
                         <View style={styles.sameRow}>
                             <Subtitle>Bought Product(s):</Subtitle>
                         </View>
-
-                        <FlatList
-                            data={product_type1}
-                            keyExtractor={(item, index) => index.toString()}
-                            renderItem={({ item }) => (
-                                <View style={styles.sameRow}>
-                                    <Text style={styles.floatRight}>{item.name}</Text>
-                                </View>
-                            )}
-                        />
-
-
+                        
+                        <LinearGradient colors={['#FFE5E5', '#FFC0CB']} >
+                        {/* Title */}
+                            <View style={profileDetailStyles.sameRow}>
+                                <Subtitle style={styles.name}>Name
+                                </Subtitle>
+                                <Subtitle style={styles.price}>Price</Subtitle>
+                            </View>
+                            <View
+                                style={{ height: 0.5, width: '100%', backgroundColor: '#FF92A5'}}
+                            />
+                            <FlatList
+                                data={product_type1}
+                                ItemSeparatorComponent={this.serviceSeparator}
+                                keyExtractor={(item, index) => index.toString()}
+                                renderItem={({ item }) => (
+                                    <View style={profileDetailStyles.sameRow}>
+                                        <Text style={styles.name}>{item.name}</Text>
+                                        <Text style={styles.price}>{item.unit_price}</Text>
+                                    </View>
+                                )}
+                            />
+                        </LinearGradient>
                     </View>
                 </ScrollView>
             )
         }
-
-
-
     }
 }
 export default ProfilesDetail
@@ -160,50 +190,11 @@ ProfilesDetail.navigationOptions = {
     },
 }
 
-const styles = StyleSheet.create({
-    card: {
-        borderColor: 'black',
-        borderStyle: 'solid',
-        borderWidth: 1,
-        marginBottom: 5,
-        width: '80%'
-    },
-    button: {
-        display: 'flex',
+const profileDetailStyles = StyleSheet.create({
+    sameRow:{
         flexDirection: 'row',
-        width: 90
+        alignItems: 'flex-start',
+        paddingTop: 8,
+        paddingBottom:8
     },
-    space: {
-        margin: 10
-    },
-    container: {
-        flex: 1
-    },
-    image: {
-        width: 150
-    },
-    sameRow: {
-        display: 'flex',
-        flexDirection: 'row',
-        alignItems: 'center',
-        marginBottom: 20
-    },
-    floatRight: {
-        position: 'absolute',
-        right: 20,
-        fontSize: 12
-    },
-    container: {
-        flex: 1,
-        paddingTop: 15,
-        margin: 10
-    },
-    header: {
-        textAlign: 'center',
-        textTransform: 'uppercase',
-        fontSize: 25,
-        fontWeight: 'bold',
-        marginBottom: 50
-    },
-
 })
