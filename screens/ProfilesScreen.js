@@ -17,7 +17,11 @@ class ProfilesScreen extends React.Component {
     }
 
     componentDidMount() {
-        this.getBooking(global.profile.customer_id)
+        if(global.profile === undefined){
+            setTimeout(() => {
+                this.getBooking(global.profile.customer_id)
+            }, 500)
+        }
     }
     componentWillUnmount() {
         this.state.requests.forEach(function (request) {
