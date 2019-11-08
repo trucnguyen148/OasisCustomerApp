@@ -47,12 +47,7 @@ class ProfilesScreen extends React.Component {
     }
 
     render() {
-        if (this.state.loadingBookings) {
-            return <View><Image
-      style={styles.logo}
-      source={require("./../assets/images/logo.png")}
-    /></View>
-        } else {
+        
             const profile = global.profile
 
             return (
@@ -120,7 +115,7 @@ class ProfilesScreen extends React.Component {
             )
         }
     }
-}
+
 export default ProfilesScreen
 
 ProfilesScreen.navigationOptions = {
