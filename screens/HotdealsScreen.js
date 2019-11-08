@@ -39,7 +39,6 @@ class HomeScreen extends React.Component {
   }
 
   componentDidMount() {
-    this.getProfile(global.user[0].profile_id)
     this.getHotdeals()
   }
 
@@ -47,16 +46,6 @@ class HomeScreen extends React.Component {
     this.state.requests.forEach(function (request) {
       request.abort()
     })
-  }
-
-  getProfile(id) {
-    makeRequest('GET', URL + "profile/" + id + "", this.state.requests)
-      .then((response) => {
-        global.profile = JSON.parse(response)
-      })
-      .catch(err => {
-        console.error('There was an error in profile!', err.statusText);
-      });
   }
 
   render() {

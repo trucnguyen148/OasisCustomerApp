@@ -19,10 +19,10 @@ class ProfilesDetail extends React.Component {
     }
     serviceSeparator = () => {
         return (
-          //Item Separator
-          <View
-            style={{ height: 0.5, width: '100%', backgroundColor: '#FF92A5'}}
-          />
+            //Item Separator
+            <View
+                style={{ height: 0.5, width: '100%', backgroundColor: '#FF92A5' }}
+            />
         );
     };
     componentDidMount() {
@@ -81,97 +81,88 @@ class ProfilesDetail extends React.Component {
 
         const booking = this.state.booking;
 
-        if (this.state.loadingProducts) {
-            return (
-                <View>
-                    <Image
-                        style={styles.logo}
-                        source={require("./../../assets/images/logo.png")}
-                    />
-                </View>
-            )
-        } else {
-            const employee = this.state.employee
-            const product_type1 = this.filterProductType(1)
-            const product_type2 = this.filterProductType(2)
 
-            return (
-                <ScrollView style={styles.container}>
-                    <View title="CARD WITH DIVIDER">
-                        <Title style={styles.header}>{booking.name}</Title>
-                        <View style={styles.sameRow}>
-                            <Subtitle>Bill id:</Subtitle>
-                            <Text style={styles.floatRight}>{booking.id}</Text>
-                        </View>
-                        <View style={styles.sameRow}>
-                            <Subtitle>Stylist:</Subtitle>
-                            <Text style={styles.floatRight}>{employee.name}</Text>
-                        </View>
-                        <View style={styles.sameRow}>
-                            <Subtitle>Time:</Subtitle>
-                            <Text style={styles.floatRight}>{booking.date_time.split(" ")[1]}</Text>
-                        </View>
-                        <View style={styles.sameRow}>
-                            <Subtitle>Date:</Subtitle>
-                            <Text style={styles.floatRight}>{booking.date_time.split(" ")[0]}</Text>
-                        </View>
+        const employee = this.state.employee
+        const product_type1 = this.filterProductType(1)
+        const product_type2 = this.filterProductType(2)
 
-                        <View style={styles.sameRow}>
-                            <Subtitle>Usaged Service(s):</Subtitle>
-                        </View>
-                        <LinearGradient colors={['#FFE5E5', '#FFC0CB']} >
-                           {/* Title */}
-                           <View style={profileDetailStyles.sameRow}>
-                                <Subtitle style={styles.name}>Name
-                                </Subtitle>
-                                <Subtitle style={styles.price}>Price</Subtitle>
-                            </View>
-                            <View
-                                style={{ height: 0.5, width: '100%', backgroundColor: '#FF92A5'}}
-                            />
-                            <FlatList
-                                data={product_type2}
-                                ItemSeparatorComponent={this.serviceSeparator}
-                                keyExtractor={(item, index) => index.toString()}
-                                renderItem={({ item }) => (
-                                    <View style={profileDetailStyles.sameRow}>
-                                        <Text style={styles.name}>{item.name}</Text>
-                                        <Text style={styles.price}>{item.unit_price}</Text>
-                                    </View>
-                                )}
-                            />
-                        </LinearGradient>
-                        <Divider />
-                        <View style={styles.sameRow}>
-                            <Subtitle>Bought Product(s):</Subtitle>
-                        </View>
-                        
-                        <LinearGradient colors={['#FFE5E5', '#FFC0CB']} >
-                        {/* Title */}
-                            <View style={profileDetailStyles.sameRow}>
-                                <Subtitle style={styles.name}>Name
-                                </Subtitle>
-                                <Subtitle style={styles.price}>Price</Subtitle>
-                            </View>
-                            <View
-                                style={{ height: 0.5, width: '100%', backgroundColor: '#FF92A5'}}
-                            />
-                            <FlatList
-                                data={product_type1}
-                                ItemSeparatorComponent={this.serviceSeparator}
-                                keyExtractor={(item, index) => index.toString()}
-                                renderItem={({ item }) => (
-                                    <View style={profileDetailStyles.sameRow}>
-                                        <Text style={styles.name}>{item.name}</Text>
-                                        <Text style={styles.price}>{item.unit_price}</Text>
-                                    </View>
-                                )}
-                            />
-                        </LinearGradient>
+        return (
+            <ScrollView style={styles.container}>
+                <View title="CARD WITH DIVIDER">
+                    <Title style={styles.header}>{booking.name}</Title>
+                    <View style={styles.sameRow}>
+                        <Subtitle>Bill id:</Subtitle>
+                        <Text style={styles.floatRight}>{booking.id}</Text>
                     </View>
-                </ScrollView>
-            )
-        }
+                    <View style={styles.sameRow}>
+                        <Subtitle>Stylist:</Subtitle>
+                        <Text style={styles.floatRight}>{employee.name}</Text>
+                    </View>
+                    <View style={styles.sameRow}>
+                        <Subtitle>Time:</Subtitle>
+                        <Text style={styles.floatRight}>{booking.date_time.split(" ")[1]}</Text>
+                    </View>
+                    <View style={styles.sameRow}>
+                        <Subtitle>Date:</Subtitle>
+                        <Text style={styles.floatRight}>{booking.date_time.split(" ")[0]}</Text>
+                    </View>
+
+                    <View style={styles.sameRow}>
+                        <Subtitle>Usaged Service(s):</Subtitle>
+                    </View>
+                    <LinearGradient colors={['#FFE5E5', '#FFC0CB']} >
+                        {/* Title */}
+                        <View style={profileDetailStyles.sameRow}>
+                            <Subtitle style={styles.name}>Name
+                                </Subtitle>
+                            <Subtitle style={styles.price}>Price</Subtitle>
+                        </View>
+                        <View
+                            style={{ height: 0.5, width: '100%', backgroundColor: '#FF92A5' }}
+                        />
+                        <FlatList
+                            data={product_type2}
+                            ItemSeparatorComponent={this.serviceSeparator}
+                            keyExtractor={(item, index) => index.toString()}
+                            renderItem={({ item }) => (
+                                <View style={profileDetailStyles.sameRow}>
+                                    <Text style={styles.name}>{item.name}</Text>
+                                    <Text style={styles.price}>{item.unit_price}</Text>
+                                </View>
+                            )}
+                        />
+                    </LinearGradient>
+                    <Divider />
+                    <View style={styles.sameRow}>
+                        <Subtitle>Bought Product(s):</Subtitle>
+                    </View>
+
+                    <LinearGradient colors={['#FFE5E5', '#FFC0CB']} >
+                        {/* Title */}
+                        <View style={profileDetailStyles.sameRow}>
+                            <Subtitle style={styles.name}>Name
+                                </Subtitle>
+                            <Subtitle style={styles.price}>Price</Subtitle>
+                        </View>
+                        <View
+                            style={{ height: 0.5, width: '100%', backgroundColor: '#FF92A5' }}
+                        />
+                        <FlatList
+                            data={product_type1}
+                            ItemSeparatorComponent={this.serviceSeparator}
+                            keyExtractor={(item, index) => index.toString()}
+                            renderItem={({ item }) => (
+                                <View style={profileDetailStyles.sameRow}>
+                                    <Text style={styles.name}>{item.name}</Text>
+                                    <Text style={styles.price}>{item.unit_price}</Text>
+                                </View>
+                            )}
+                        />
+                    </LinearGradient>
+                </View>
+            </ScrollView>
+        )
+
     }
 }
 export default ProfilesDetail
@@ -191,10 +182,10 @@ ProfilesDetail.navigationOptions = {
 }
 
 const profileDetailStyles = StyleSheet.create({
-    sameRow:{
+    sameRow: {
         flexDirection: 'row',
         alignItems: 'flex-start',
         paddingTop: 8,
-        paddingBottom:8
+        paddingBottom: 8
     },
 })

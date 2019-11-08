@@ -43,6 +43,7 @@ class Signin extends React.Component {
     }
   }
 
+
   checkInfo(phone, password) {
     makeRequest('GET', URL + "user/" + phone + "/" + password + "")
       .then((response) => {
@@ -55,15 +56,38 @@ class Signin extends React.Component {
           alert("Wrong phone or password")
         } else {
           global.user = this.state.user
+        }
+      })
+      .then(() => {
+        if (this.state.user.length < 1) {
+
+        } else {
+          this.getProfile(global.user[0].profile_id)
+        }
+
+      })
+      .then(() => {
+        if (this.state.user.length < 1) {
+
+        } else {
           this.props.navigation.navigate('MainTabNavigator')
         }
+
       })
       .catch(err => {
         console.error('There was an error!', err.statusText);
       });
   }
 
-
+  getProfile(id) {
+    makeRequest('GET', URL + "profile/" + id + "", this.state.requests)
+      .then((response) => {
+        global.profile = JSON.parse(response)
+      })
+      .catch(err => {
+        console.error('There was an error in profile!', err.statusText);
+      });
+  }
   render() {
     return (
       <View>
