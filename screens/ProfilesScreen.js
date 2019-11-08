@@ -46,7 +46,7 @@ class ProfilesScreen extends React.Component {
 
         const profile = global.profile
         if (this.state.loadingBookings === true) {
-            return <View></View>
+            return <View><Title>is loading...</Title></View>
         } else {
             return (
                 <ScrollView style={styles.container}>
