@@ -31,10 +31,10 @@ class BookingsScreen extends React.Component {
               styleName="medium-wide"
               source={{ uri: branch.image.url }}
             />
-            <View styleName="content">
-              <Subtitle numberOfLines={3}>{branch.name}</Subtitle>
+            <View styleName="content" >
+              <Subtitle numberOfLines={3} style={{textAlign: 'center'}}>{branch.name}</Subtitle>
               <View styleName="horizontal">
-                <Caption styleName="collapsible" numberOfLines={2}>{branch.address}</Caption>
+                <Caption styleName="collapsible" numberOfLines={2} style={{textAlign: 'center'}}>{branch.address}</Caption>
               </View>
             </View>
           </Card>
@@ -53,7 +53,10 @@ class BookingsScreen extends React.Component {
     if(this.props.data.loading){
       return (
         <View>
-          <Text>Loading</Text>
+          <Image
+              style={styles.logo}
+              source={require("./../assets/images/logo.png")}
+            />
         </View>
       )
     }
@@ -81,6 +84,7 @@ class BookingsScreen extends React.Component {
           <ListView
             data={groupedData}
             renderRow={this.renderRow}
+            
           />
         </ScrollView>
       );

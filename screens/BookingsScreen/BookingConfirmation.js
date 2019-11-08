@@ -1,6 +1,6 @@
 import React from 'react';
 import { ScrollView, StyleSheet, FlatList } from 'react-native';
-import { Text, View, Card, Subtitle, Button, Divider } from '@shoutem/ui';
+import { Text, View, Card, Subtitle, Button, Divider, Image } from '@shoutem/ui';
 import { styles } from './../../components/styles'
 
 import { URL, makeRequest } from './../../components/api';
@@ -66,54 +66,50 @@ class BookingConfirmation extends React.Component {
         if (this.state.loadingBookings || this.props.data.loading) {
             return (
                 <View>
-                    <Subtitle>loading</Subtitle>
+                    <Image
+                        style={styles.logo}
+                        source={require("./../../assets/images/logo.png")}
+                    />
                 </View>
             )
         } else {
-            const bookings = this.state.bookings
-
             console.log(this.state.bookings)
             return (
                 <ScrollView>
-                    <Card style={confirmationStyles.cardWidth}>
-                        <View style={confirmationStyles.card}>
-                            <FlatList
-                                data={this.state.bookings}
-                                keyExtractor={(item, index) => index.toString()}
-                                renderItem={({ item }) => (
-                                    <View>
-                                        <View style={styles.sameRow}>
-                                            <Subtitle>Date:</Subtitle>
-                                            <Text style={styles.text}>{item.date_time.split(" ")[0]}</Text>
-                                        </View>
-                                        <View style={styles.sameRow}>
-                                            <Subtitle>Time:</Subtitle>
-                                            <Text style={styles.text}>{item.date_time.split(" ")[1]}</Text>
-                                        </View>
-                                        <View style={styles.sameRow}>
-                                            <Subtitle>Branch:</Subtitle>
-                                            <Text style={styles.text}>{this.getEmpAndBranchName(item.emp_id)[0].branch.name}</Text>
-                                        </View>
-                                        <View style={styles.sameRow}>
-                                            <Subtitle>Stylist:</Subtitle>
-                                            <Text style={styles.text}>{this.getEmpAndBranchName(item.emp_id)[0].name}</Text>
-                                        </View>
-                                        <View style={confirmationStyles.button}>
-                                            <Button
-                                                onPress={() => {
-                                                    this.deleteBooking(item.id)
-                                                }}
-                                                style={confirmationStyles.space}>
-                                                <Text style={confirmationStyles.text}>Cancel</Text>
-                                            </Button>
-                                        </View>
-                                        <Divider />
-                                    </View>
-                                    
-                                )}
-                            />
-                        </View>
-                    </Card>
+                    <FlatList
+                        data={this.state.bookings}
+                        keyExtractor={(item, index) => index.toString()}
+                        renderItem={({ item }) => (
+                            <View style={confirmationStyles.card}>
+                                <View style={styles.sameRow}>
+                                    <Subtitle>Date:</Subtitle>
+                                    <Text style={styles.text}>{item.date_time.split(" ")[0]}</Text>
+                                </View>
+                                <View style={styles.sameRow}>
+                                    <Subtitle>Time:</Subtitle>
+                                    <Text style={styles.text}>{item.date_time.split(" ")[1]}</Text>
+                                </View>
+                                <View style={styles.sameRow}>
+                                    <Subtitle>Branch:</Subtitle>
+                                    <Text style={styles.text}>{this.getEmpAndBranchName(item.emp_id)[0].branch.name}</Text>
+                                </View>
+                                <View style={styles.sameRow}>
+                                    <Subtitle>Stylist:</Subtitle>
+                                    <Text style={styles.text}>{this.getEmpAndBranchName(item.emp_id)[0].name}</Text>
+                                </View>
+                                <View >
+                                    <Button
+                                        onPress={() => {
+                                            this.deleteBooking(item.id)
+                                        }}
+                                        style={styles.buttonStyleMain}>
+                                        <Text style={confirmationStyles.text}>Cancel</Text>
+                                    </Button>
+                                </View>
+                            </View>
+                        )}
+                    />
+                    
 
                 </ScrollView>
             )
@@ -142,7 +138,12 @@ const confirmationStyles = StyleSheet.create({
         borderStyle: 'solid',
         borderWidth: 1.3,
         borderColor: '#c2185b',
-        marginBottom: 5
+        marginBottom: 5,
+        width: '90%',
+        marginLeft: 'auto',
+        marginRight: 'auto',
+        marginTop: 25,
+        padding: 20
     },
     button: {
         display: 'flex',
@@ -157,13 +158,5 @@ const confirmationStyles = StyleSheet.create({
     space: {
         margin: 5,
         backgroundColor: '#c2185b'
-    },
-    cardWidth: {
-        width: '90%',
-        marginLeft: '5%',
-        marginRight: '5%',
-        marginTop: 20,
-        marginBottom: 20
-    },
-
+    }
 })

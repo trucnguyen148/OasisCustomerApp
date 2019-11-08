@@ -48,11 +48,10 @@ class ProfilesScreen extends React.Component {
 
     render() {
         if (this.state.loadingBookings) {
-            return (
-                <View>
-                    <Subtitle>loading bookings</Subtitle>
-                </View>
-            )
+            return <View><Image
+      style={styles.logo}
+      source={require("./../assets/images/logo.png")}
+    /></View>
         } else {
             const profile = global.profile
 
@@ -103,7 +102,7 @@ class ProfilesScreen extends React.Component {
                                         <Card
                                             style={profileStyles.card}
                                         >
-                                            <Text style={profileStyles.headerCard}>{item.name}</Text>
+                                            {/* <Text style={profileStyles.headerCard}>{item.name}</Text> */}
                                             <Divider />
                                             <View style={profileStyles.card}>
                                                 <View style={styles.sameRow}>
@@ -116,14 +115,10 @@ class ProfilesScreen extends React.Component {
                                 </View>
                             )}
                         />
-
                     </View>
                 </ScrollView>
             )
         }
-
-
-
     }
 }
 export default ProfilesScreen
@@ -148,7 +143,7 @@ const profileStyles = StyleSheet.create({
         // borderStyle: 'solid',
         // borderWidth: 1,
         margin: 5,
-        padding: 10,
+        padding: 5,
         width: 'auto',
         backgroundColor: '#c2185b',
     },

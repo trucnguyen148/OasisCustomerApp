@@ -1,6 +1,6 @@
 import React from 'react';
 import { ScrollView, StyleSheet, FlatList} from 'react-native';
-import { View, Text, DropDownMenu} from '@shoutem/ui';
+import { View, Text, DropDownMenu, Image} from '@shoutem/ui';
 import { SearchBar } from 'react-native-elements';
 import { styles } from './../components/styles';
 
@@ -81,13 +81,16 @@ class PricelistScreen extends React.Component {
     const selectedCategory = this.state.selectedCategory || this.state.categories[0];
 
     if (data.loading) {
-      return <View style={styles.containerPriceProduct}><Text>Loading</Text></View>
+      return <View style={styles.containerPriceProduct}><Image
+      style={styles.logo}
+      source={require("./../assets/images/logo.png")}
+    /></View>
     } else {
       return (
         <View style={styles.containerPriceProduct}>
           {/* Seach bar */}
           <SearchBar
-            placeholder="Search product..."
+            placeholder="Search service..."
             onChangeText={this.updateSearch}
             value={search}
             inputStyle={styles.searchInput}
