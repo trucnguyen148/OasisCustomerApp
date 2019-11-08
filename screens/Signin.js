@@ -60,19 +60,9 @@ class Signin extends React.Component {
       })
       .then(() => {
         if (this.state.user.length < 1) {
-
         } else {
           this.getProfile(global.user[0].profile_id)
         }
-
-      })
-      .then(() => {
-        if (this.state.user.length < 1) {
-
-        } else {
-          this.props.navigation.navigate('MainTabNavigator')
-        }
-
       })
       .catch(err => {
         console.error('There was an error!', err.statusText);
@@ -83,6 +73,9 @@ class Signin extends React.Component {
     makeRequest('GET', URL + "profile/" + id + "", this.state.requests)
       .then((response) => {
         global.profile = JSON.parse(response)
+      })
+      .then(() => {
+        this.props.navigation.navigate('MainTabNavigator')
       })
       .catch(err => {
         console.error('There was an error in profile!', err.statusText);

@@ -17,11 +17,7 @@ class ProfilesScreen extends React.Component {
     }
 
     componentDidMount() {
-        if(global.profile === undefined){
-            setTimeout(() => {
-                this.getBooking(global.profile.customer_id)
-            }, 500)
-        }
+        this.getBooking(global.profile.customer_id)
     }
     componentWillUnmount() {
         this.state.requests.forEach(function (request) {
@@ -47,9 +43,11 @@ class ProfilesScreen extends React.Component {
     }
 
     render() {
-        
-            const profile = global.profile
 
+        const profile = global.profile
+        if (this.state.loadingBookings === true) {
+            return <View></View>
+        } else {
             return (
                 <ScrollView style={styles.container}>
                     <View title="CARD WITH DIVIDER">
@@ -114,7 +112,9 @@ class ProfilesScreen extends React.Component {
                 </ScrollView>
             )
         }
+
     }
+}
 
 export default ProfilesScreen
 
