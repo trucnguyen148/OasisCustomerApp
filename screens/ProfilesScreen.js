@@ -1,6 +1,6 @@
 import React from 'react';
 import { ScrollView, StyleSheet, FlatList } from 'react-native';
-import { View, Card, Text, Subtitle, Button, TouchableOpacity, Divider } from '@shoutem/ui';
+import { View, Card, Text, Subtitle, Button, TouchableOpacity, Divider, Title } from '@shoutem/ui';
 import { Image } from '@shoutem/ui/html';
 import { styles, buttons } from './../components/styles';
 import { URL, makeRequest } from './../components/api';
