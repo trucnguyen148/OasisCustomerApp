@@ -1,4 +1,4 @@
-Customer's mobile application is developed based on React Native framework and connect API by GraphQL.
+<h3>Customer's mobile application is developed based on React Native framework and connect API by GraphQL.</h3>
 
 It has four main pages, such as: Home Page, Booking Page, Product Pages and Profile Page. In each page, it contains different contents, such as:
 
