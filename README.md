@@ -1,4 +1,5 @@
 Customer’s mobile application has four main pages, such as: Home Page, Booking Page, Product Pages and Profile Page. In each page, it contains different contents, such as:
+
   • Home Page has Hot Deals part for Promotion Campaign.
   • Booking Page has Choosing Service, Branch, Time, Date and Stylist for booking reservation with company. Besides, users  also can check, change or cancel their reservations based on their needs.
   • Price List page has four main services, such as: Nails, Permanent Make-up, Eyelash Extension and Courses. Customers can check the price of service which they would like to use (Appendix 2-4)
