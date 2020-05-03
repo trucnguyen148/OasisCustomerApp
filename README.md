@@ -1,6 +1,6 @@
 <h3>Customer's mobile application is developed based on React Native framework and connect API by GraphQL.</h3>
 
-It has four main pages, such as: Home Page, Booking Page, Product Pages and Profile Page. In each page, it contains different contents, such as:
+It is for customers to check promotions, book reservations, buy products, look back used histories and it has four main pages, such as: Home Page, Booking Page, Product Pages and Profile Page. In each page, it contains different contents, such as:
 
   <li> Home Page has Hot Deals part for Promotion Campaign.</li>
   <li> Booking Page has Choosing Service, Branch, Time, Date and Stylist for booking reservation with company. Besides, users  also can check, change or cancel their reservations based on their needs.</li>
