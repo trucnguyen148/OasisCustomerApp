@@ -1,18 +1,18 @@
 Customer’s mobile application has four main pages, such as: Home Page, Booking Page, Product Pages and Profile Page. In each page, it contains different contents, such as:
 
   <li> Home Page has Hot Deals part for Promotion Campaign.</li>
-  • Booking Page has Choosing Service, Branch, Time, Date and Stylist for booking reservation with company. Besides, users  also can check, change or cancel their reservations based on their needs.
-  • Price List page has four main services, such as: Nails, Permanent Make-up, Eyelash Extension and Courses. Customers can check the price of service which they would like to use (Appendix 2-4)
-  • Product Page has four main products to sell, for example: Nails Polish, Liquid, Accessories and Equipment brushes. Users can choose what kind of products they would like to buy. After user add products on their cart, the next step will be confirmation about information of user (Name, Address, Phone Number) and payment methods (Mastercard, Visa Card, PayPal) .
-  • Profile Page has two main information, such as: basic information of user (Avatar, Name, Address, Phone number and Email) and Service or Product Usage Histories of user (Date and Time, Bill Code, Photos after using service, Used Service(s), Bought Product(s), Chosen Stylist)
+  <li> Booking Page has Choosing Service, Branch, Time, Date and Stylist for booking reservation with company. Besides, users  also can check, change or cancel their reservations based on their needs.</li>
+  <li> Price List page has four main services, such as: Nails, Permanent Make-up, Eyelash Extension and Courses. Customers can check the price of service which they would like to use </li>
+  <li> Product Page has four main products to sell, for example: Nails Polish, Liquid, Accessories and Equipment brushes. Users can choose what kind of products they would like to buy. After user add products on their cart, the next step will be confirmation about information of user (Name, Address, Phone Number) and payment methods (Mastercard, Visa Card, PayPal) .
+  <li> Profile Page has two main information, such as: basic information of user (Avatar, Name, Address, Phone number and Email) and Service or Product Usage Histories of user (Date and Time, Bill Code, Photos after using service, Used Service(s), Bought Product(s), Chosen Stylist) </li>
 
 In addition, we would like to separate customers into four levels, such as: member, silver, gold, diamond. Each customer will receive different hot deals which are depended on how many moneys he spent to use service or buy products, for instance: level of customers will be member if they spent under 300€. After that if customers continue to use services and buy product until under 600€, their level will be changed to silver. Moreover, level of customers will be change to gold if they spent under 1000€, in this level customers will receive personal offers every week. Specially, in diamond level, customers will be invited to our workshop, received gifts after using services or buying products and their personal offers will be higher than other levels. To get diamond level, customers just need to spend more than 1000€. In each level, customers will receive different hot deals.
 
-This is mindmap of Customer's mobile application
+<h3>This is mindmap of Customer's mobile application</h3>
 
 ![alt text](https://lh3.googleusercontent.com/0JEko-8sMd34mvrK5qHkpHyjjUyK7QghSwIEqqlJEV1Zg0YRrhqFM0AojvHyRxwA_Pe_95kAKRtCGJkiFXUSS84lH2hHEiKcXl99hzjuOiuoqIiNOb1Eqq2MbglaY6UccVAEXeKneihjCLWeqKxa-E5-5mZ9gg1PRe_D3cYiBbAcRGbIl_1yq5FLbf_mXHkJqsYW5G7KSd2OaCQanT6x79VMFMgg1BiM2Q2vm_eB1xj-o5XUgYx1ELJXSr9xctI9zzyPr2wIhaDY6M3zDtZSzjwNa_vMJCfk-jNfE1f4VIC1XLJJ577WPDLkurLGGkdiz8yx4NPESG8bX03UlYWUeXXph-6Oe2TUa5gyysHz2XWTf0GpWs0WPZ3QzybpzCcK6UIoSlhTC-3XHoTybPqt6TlnW8DgHbF-IZ5DpvbTqELM8_0E4np21BYFR4wKr_e5lHvPs_B6NaqpkOSKqhWyVShSokuX2Jx_XYYpGizZc1QWJIGUvIq-sEozUOcVaZpTpUDsqgoXa-cVJH2bSr7rRxJrIbV0om5lyiYj6NbhD-Bngo1QmyioYaaji1UdWSkJWEQcXgVWnbJMuWAQol3v7Qv31AZy-EzuvLYQ6kgfXgF68dI15HXvwvkttVLUVeEp2AesbZz82lzeANEcxIWvsjgn-ZBhbPhEmG4O6xqbWFZiWlkH2iqZ2ltlMcZCCw=w1754-h1239-no)
 
-This is how our application looks like 
+<h3>This is how our application looks like</h3>
 
 ![alt text](https://lh3.googleusercontent.com/bHBy0qINyDfVVMH8YOqKU59gF_tzD-8Mhdm12HpZWrk_9sqyW5FCS3ELB-UVSwa8DPpQi1CALNFDPi8XHktnBf-SgGTVV1qbzdpG7PcWC4QhEJljatbk_NqtPstWk1n0HqGhEGUAmNBnuRwZVeEof29ER-t-RJvRL1IObMpnM27ATIHOzDcuxxlQMmxwvWe48jKcKYBE67_Yo0Z5nBTX39TuQdtH-XxpWTQTx0bqzVk6TmPOmrcsftqZFoduUPSkCaLPuzOM872JOT0gDpVBFR8XPHtIJvoJ1n_lHEpd8MB_B6XCLF-o2suvIg5xVoAr0LKpKarE2CQ2sBoU4zS3Cg3DXn_rkWM7SgsLIhKXWZBqoYzL0EnMLcGkkkrRjIAkT3ebyGtRw6vTq1L6VJL3v4k3kyyLSr1H27lrhh5Tus2ZCRtPhxESzfDsUtokZkG6M5ShHtXZ4-4n7YmMFpmnZ3iT5TRo8YGS_z0gWn_DO4kfXXPsH6HfYOec8ZxLpQ_vI2WF2oY633HHcfga-60EPivpp-Zm3h2FibvrdqY1E_OP9_vrhOvXVSbO3VnAIK1J-mJF3-N673rAQusS_o-yXlLXyuzbmwxtzkAEjN7zc5MMJodh0kU_UYtKmf5upXmfl9_3LKebLDodn8Pq2_yeXI4gJzUgww0axyUgQSpUFOv7WyIykJP4tURGQwmioA=w856-h871-no)
 
