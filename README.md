@@ -16,7 +16,7 @@ In addition, we would like to separate customers into four levels, such as: memb
 
 <h4>This is how our application looks like</h4>
 
-![Introduction](https://lh3.googleusercontent.com/_i3lC3zx8yI0AbvAj0RCT6nO_HmpCr1BisDZn6y3jGOBnGP6MY-si0HPTF8wspn5ZqAHi7_6PKZ_53EVMI8mkUcKvYxnrhzE_yzlkY9DFm8XhrspB2F_3BoAZU7A2rRBLn3yKqIXcBg=w1920-h1080)
+![Introduction](https://lh3.googleusercontent.com/02AhiIVF1jXe672l6dqMZx3P_B_Sfzuk0ehp6Y6uRhXMxNYdneQ1PwIqSbBddFtknyM8xWx3gv-y6Khosud5i06D0TslUjS9nwifEAz8L3ibG5vyUea7wuqU_IO9nkt5CAHIZ3aAN7U=w1920-h1080)
 
 
 ![Login and Register](https://lh3.googleusercontent.com/asbh4JHlPnofuYq9pXOdQLtxPDNogrOcZZILDJTVzDJjfQTRaSkebAHRS7t1pWP7px5N-waPBXcyUB6MK81B4RBjZi8OaJd_e-OtVIcXk2Zo2SRP2JhJDUpdVcCieEcpA-6TK2k4d1U=w1920-h1080)
@@ -32,7 +32,7 @@ In addition, we would like to separate customers into four levels, such as: memb
 ![PriceList](https://lh3.googleusercontent.com/oJg3eb95DyJbVBRZv-7NtQgJmyiBDPPq2f665qFf6Tzack1UlnNUPyCM5_jWC0-Pc4KF0qDaFXGB7UV9S8DPAlyU4r71zSn_o5HAZsbo4fW05y5P4YLVV-J-MzGtt_QwoTIzhhEoNA4=w1920-h1080)
 
 
-![Products-1](https://lh3.googleusercontent.com/ShK_gbMz1edXgOEzrWd45ZmM68JK8KYDEHMKZXGehAwCw4Mc23PH1OR7D7urrLsk45z7bYL-sjXET6sM9rG1qZdgeBf1S8aGrLHfNuZECJRNhJHbMXhO2G0jppua_s_1wD1daGutVuA=w1920-h1080)
+![Products-1](https://lh3.googleusercontent.com/UXw5nEwxTvO5HuQ2wy6pId_whS-V9qzpWxoyC8Y6rCQU63EjIX5TKGhb3ZXqTQhaoXYon2MJ2igGxCmCJ2fVv_44ZqyTC0CPpJj-wmmAh7MAQncXPDhWUVR5EN_tDvnLBwtJNM1JGfo=w1920-h1080)
 
 
 ![Products-2](https://lh3.googleusercontent.com/_mGbovRwHUDkUCvixyvSyNcXWa5WgvLaj--eTgATgThZIaeCKOdYFSQTx3X2-pdJj5p5yk_e-8Klr-rmJVro9Squ0S5vdr6Ae26nwTZ1zxvVUBxSBLhsuqqpyS_AgznesWCiL7QaEQA=w1920-h1080)
