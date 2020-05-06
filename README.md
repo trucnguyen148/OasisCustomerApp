@@ -12,7 +12,7 @@ In addition, we would like to separate customers into four levels, such as: memb
 
 <h4>This is mindmap of Customer's mobile application</h4>
 
-![Mindmap](https://photos.app.goo.gl/yHgGkkxogSrh9Yqh9)
+![Mindmap](https://lh3.googleusercontent.com/8AYY8Tv3P6f3_w5DRT9w6SIHo0vTZDsUManeOKifYaijIv0AM1__XXRoZbdyN_PkfZD5ty3fOelLczQgJXRbofKbhgFUpIkNUFllfrWm4e0FgG6_vw9OyE4yXp6c03TkJVVEp3RVJ8M=w1920-h1080)
 
 <h4>This is how our application looks like</h4>
 
