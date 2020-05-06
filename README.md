@@ -12,7 +12,7 @@ In addition, we would like to separate customers into four levels, such as: memb
 
 <h4>This is mindmap of Customer's mobile application</h4>
 
-![Mindmap](https://lh3.googleusercontent.com/98eh8sWpEETsIQVIndrPn_DRZ4E4zFf6h4mX5hc894W-i9EUYQyxZHMsSZz0ku2WdaITktppq9mCotKU1c309OkOSAt2UL2iXfK1oYmkpO5sUbas_T6qE4Q6kr4u_O4H1LYR40Bn1S8_kLgTHwJLzVTgui136Ml1DitebC8Ut5n0h8uRChhcMF_4tb4chLpOCQuocYlhth4W99vXIXXS_gkOV0Oe71H-Fi2x5qk-3_hVDjluLyfStTAnm1dgibVefKoEwou-edAJJBKW0Qq4NlZfRph9cWTzzvmwlNtlN0ydVaQF4HvDXdHHXO3dIhNIBNI9lN1LXzt_s7ptyemvrpdGDV8QAP_eYTn-zV9ieXrR1Dn3YgOx-LUTpY_2_T0vFEEX35XjEOaoQ0KeHfLc3PHh3pX1UIICNV6ky11kSf670W2lhmpYB9CK2FGo9eF9vohyDBM-aqBWRcCg5K-R2-G3fQH9LgxiLxkbG7O4mZ9wjwNKBhfUYryG3i4oZzHaU2nKU2kiYdtJMsqWw-djd4ZSy8kweITA0KzAfjem_XYoUdVjdZSFxkSvbA8dUgLRuXEV6iXnoWxAXy7zM9fNpHr2ULfONirnwlFbsZyY3qWeI_l5AwWuOEnRzUTWOt3IaJX04NhK0QI2ywpj9_GnRRgI5BtjVCdTuWd20rD466w4sl6WmRCPq-mQOgPaEQ=w1754-h1239-no)
+![Mindmap](https://photos.app.goo.gl/yHgGkkxogSrh9Yqh9)
 
 <h4>This is how our application looks like</h4>
 
